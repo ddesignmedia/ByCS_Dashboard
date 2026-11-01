@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reflexions-Check // Lerntagebuch & Team-Sprint</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- html2canvas for high-res PNG export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- Google Font: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Styling scrollbars for modern aesthetic */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Print-specific rules strictly formatting the A4 export */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #print-area, #print-area * {
+        visibility: visible;
+      }
+      #print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 10mm;
+      }
+    }
+
+    /* A4 preview aspect ratio */
+    .a4-sheet {
+      width: 100%;
+      max-width: 210mm;
+      min-height: 290mm;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased font-sans min-h-screen flex flex-col">
+
+  <header class="no-print bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Brand & Mode Info -->
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-brand-600 to-violet-500 text-white flex items-center justify-center font-black text-xl shadow-md shadow-brand-500/20">
+          ⚡
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">Reflexions-Check</h1>
+        </div>
+      </div>
+
+      <!-- Mode Selector (Team vs Einzel) -->
+      <div class="bg-slate-100 p-1 rounded-xl flex items-center border border-slate-200">
+        <button id="btn-mode-single" onclick="setMode('single')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all shadow-xs bg-white text-slate-900">
+          👤 Mein Lerntagebuch
+        </button>
+        <button id="btn-mode-team" onclick="setMode('team')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
+          👥 Team-Sprint
+        </button>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        <button onclick="loadDemoData()" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-100 border border-slate-200 transition">
+          💡 Vorlage
+        </button>
+        <button onclick="promptResetModal()" class="px-3 py-1.5 rounded-lg text-xs font-medium text-rose-600 hover:bg-rose-50 border border-rose-200 transition">
+          🗑️ Leeren
+        </button>
+        <!-- Toggle Button für die Live-Vorschau -->
+        <button id="btn-toggle-preview" onclick="togglePreview()" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-brand-700 transition flex items-center gap-1.5 shadow-xs">
+          <span id="btn-toggle-preview-icon">👁️</span>
+          <span id="btn-toggle-preview-text">Vorschau anzeigen</span>
+        </button>
+        <button onclick="exportAsPNG()" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-brand-600 hover:bg-brand-700 text-white transition flex items-center gap-1.5 shadow-sm shadow-brand-500/30">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Als PNG exportieren
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main id="main-container" class="flex-1 max-w-3xl w-full mx-auto p-4 sm:p-6 transition-all duration-300">
+    <div id="grid-container" class="w-full">
+    
+    <!-- LEFT PANEL: Interactive Input Form (Immer sichtbar) -->
+    <section id="panel-editor" class="w-full bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 space-y-6">
+      
+      <!-- Basisdaten -->
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+            <span>📌</span> Basisdaten
+          </h2>
+          <span id="label-mode-badge" class="text-xs bg-indigo-50 text-brand-600 px-2 py-0.5 rounded-full font-medium">Einzelmodus</span>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Thema / Projekt / Einheit</label>
+            <input type="text" id="in-topic" oninput="updatePreview()" placeholder="Projekt-Thema..." class="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition">
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label id="label-author" class="block text-xs font-semibold text-slate-700 mb-1">Name / Verfasser</label>
+              <input type="text" id="in-author" oninput="updatePreview()" placeholder="Name" class="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Datum</label>
+              <input type="date" id="in-date" oninput="updatePreview()" class="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vibe & Energie Check-In -->
+      <div class="pt-4 border-t border-slate-100">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-2">
+          <span>⚡</span> <span id="heading-vibe">Vibe & Stimmungs-Check</span>
+        </h2>
+
+        <!-- EINZELMODUS: Klassischer Mood-Picker & Slider -->
+        <div id="editor-single-mood" class="space-y-4">
+          <p class="text-xs text-slate-500">Wie fühlst du dich mit deinem aktuellen Arbeitsstand?</p>
+          
+          <!-- Mood Selector Badges -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="mood-picker">
+            <button type="button" onclick="selectMood('flow')" data-mood="flow" class="mood-btn border border-slate-200 p-2 rounded-xl text-left hover:border-brand-500 transition flex items-center gap-2 bg-slate-50">
+              <span class="text-xl">🚀</span>
+              <div>
+                <div class="text-xs font-bold text-slate-800">Flow</div>
+                <div class="text-[10px] text-slate-500 leading-tight">Voll im Plan</div>
+              </div>
+            </button>
+            <button type="button" onclick="selectMood('focused')" data-mood="focused" class="mood-btn border border-slate-200 p-2 rounded-xl text-left hover:border-brand-500 transition flex items-center gap-2 bg-slate-50">
+              <span class="text-xl">🎯</span>
+              <div>
+                <div class="text-xs font-bold text-slate-800">Fokus</div>
+                <div class="text-[10px] text-slate-500 leading-tight">Konzentriert</div>
+              </div>
+            </button>
+            <button type="button" onclick="selectMood('ok')" data-mood="ok" class="mood-btn border border-slate-200 p-2 rounded-xl text-left hover:border-brand-500 transition flex items-center gap-2 bg-slate-50">
+              <span class="text-xl">⚖️</span>
+              <div>
+                <div class="text-xs font-bold text-slate-800">Solide</div>
+                <div class="text-[10px] text-slate-500 leading-tight">Läuft ganz gut</div>
+              </div>
+            </button>
+            <button type="button" onclick="selectMood('tired')" data-mood="tired" class="mood-btn border border-slate-200 p-2 rounded-xl text-left hover:border-brand-500 transition flex items-center gap-2 bg-slate-50">
+              <span class="text-xl">🔋</span>
+              <div>
+                <div class="text-xs font-bold text-slate-800">Akku leer</div>
+                <div class="text-[10px] text-slate-500 leading-tight">Wenig Energie</div>
+              </div>
+            </button>
+            <button type="button" onclick="selectMood('stuck')" data-mood="stuck" class="mood-btn border border-slate-200 p-2 rounded-xl text-left hover:border-brand-500 transition flex items-center gap-2 bg-slate-50">
+              <span class="text-xl">🛑</span>
+              <div>
+                <div class="text-xs font-bold text-slate-800">Blockiert</div>
+                <div class="text-[10px] text-slate-500 leading-tight">Brauche Support</div>
+              </div>
+            </button>
+            <button type="button" onclick="selectMood('stress')" data-mood="stress" class="mood-btn border border-slate-200 p-2 rounded-xl text-left hover:border-brand-500 transition flex items-center gap-2 bg-slate-50">
+              <span class="text-xl">🤯</span>
+              <div>
+                <div class="text-xs font-bold text-slate-800">Zeitdruck</div>
+                <div class="text-[10px] text-slate-500 leading-tight">Viel zu tun</div>
+              </div>
+            </button>
+          </div>
+
+          <!-- Rating Slider -->
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <span id="label-slider" class="text-xs font-semibold text-slate-700">Produktivitäts-Level</span>
+              <span id="slider-val" class="text-xs font-extrabold text-brand-600 bg-brand-50 px-2 py-0.5 rounded">4 / 5</span>
+            </div>
+            <input type="range" id="in-productivity" min="1" max="5" value="4" oninput="updateSlider(this.value)" class="w-full accent-brand-600 cursor-pointer">
+            <div class="flex justify-between text-[10px] text-slate-400 mt-0.5">
+              <span>1 (Zäh & schleppend)</span>
+              <span>3 (Passt)</span>
+              <span>5 (Mega effizient)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TEAMMODUS: Interaktives Stimmungsboard / Mood Matrix -->
+        <div id="editor-team-moodboard" class="hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <label class="text-xs font-semibold text-slate-700">Mitglieder:</label>
+              <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200" id="member-count-btns">
+                <button type="button" onclick="setMemberCount(2)" class="btn-count px-2 py-0.5 text-xs rounded font-medium">2</button>
+                <button type="button" onclick="setMemberCount(3)" class="btn-count px-2 py-0.5 text-xs rounded font-medium">3</button>
+                <button type="button" onclick="setMemberCount(4)" class="btn-count px-2 py-0.5 text-xs rounded font-medium active bg-white shadow-xs font-bold text-brand-600">4</button>
+                <button type="button" onclick="setMemberCount(5)" class="btn-count px-2 py-0.5 text-xs rounded font-medium">5</button>
+                <button type="button" onclick="setMemberCount(6)" class="btn-count px-2 py-0.5 text-xs rounded font-medium">6</button>
+              </div>
+            </div>
+            <!-- Fullscreen Button -->
+            <button type="button" onclick="openMoodboardFullscreen()" class="px-2.5 py-1 text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-brand-700 border border-indigo-200 rounded-lg flex items-center gap-1.5 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+              <span>Vollbild</span>
+            </button>
+          </div>
+
+          <!-- Member Pin Selector -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-[11px] text-slate-500">
+              <span>Wer setzt gerade seinen Punkt?</span>
+              <span class="text-brand-600 font-semibold">Tippe auf ein Mitglied, dann ins Feld:</span>
+            </div>
+            <div id="member-selector-list" class="flex flex-wrap gap-1.5">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Interactive 2D Mood Matrix Box -->
+          <div id="moodboard-wrapper" class="relative bg-slate-50 border-2 border-dashed border-indigo-200 rounded-2xl p-2 select-none transition-all duration-300">
+            <!-- Fullscreen Toggle Button -->
+            <button type="button" onclick="toggleMoodboardFullscreen()" class="absolute top-2 right-2 z-20 p-1.5 bg-white border border-slate-200 rounded-lg shadow-sm text-slate-500 hover:text-brand-600 transition" title="Vollbild umschalten">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+            </button>
+
+            <div class="text-center text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              ▲ Hohe Motivation & Flow
+            </div>
+            
+            <div class="relative w-full h-44 bg-white rounded-xl border border-slate-200 cursor-crosshair overflow-hidden shadow-inner transition-all duration-300" id="interactive-board" onclick="handleBoardClick(event)">
+              <!-- Crosshair Axes -->
+              <div class="absolute inset-x-0 top-1/2 h-px bg-slate-200"></div>
+              <div class="absolute inset-y-0 left-1/2 w-px bg-slate-200"></div>
+
+              <!-- Quadrant Background Hints -->
+              <div class="absolute top-2 left-2 text-[10px] text-amber-600/70 font-semibold pointer-events-none">⚡ Output mit Reibung</div>
+              <div class="absolute top-2 right-2 text-[10px] text-emerald-600/70 font-bold pointer-events-none">🚀 Flow & Harmonie</div>
+              <div class="absolute bottom-2 left-2 text-[10px] text-rose-500/70 font-semibold pointer-events-none">🛑 Frust / Blockade</div>
+              <div class="absolute bottom-2 right-2 text-[10px] text-indigo-500/70 font-semibold pointer-events-none">🛋️ Harmonisch, aber träge</div>
+
+              <!-- Placed Member Dots container -->
+              <div id="board-dots-container" class="absolute inset-0 pointer-events-none"></div>
+            </div>
+
+            <div class="flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1 px-1">
+              <span>◀ Konflikte / Reibung</span>
+              <span>▼ Niedrige Motivation</span>
+              <span>Starker Zusammenhalt ▶</span>
+            </div>
+          </div>
+
+          <!-- Discussion Impulse Banner -->
+          <div id="team-retro-hint" class="bg-indigo-50/70 border border-indigo-100 rounded-xl p-2.5 flex items-start gap-2 text-xs text-indigo-900">
+            <span class="text-sm">💬</span>
+            <span id="team-retro-hint-text">Punkte gesetzt! Nutzt das Stimmungsbild, um zu fragen: „Warum empfinden wir die Situation unterschiedlich?“</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rückblick (Retrospektive) -->
+      <div class="pt-4 border-t border-slate-100 space-y-3">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+          <span>⏪</span> Rückblick: Was bisher geschah
+        </h2>
+
+        <div>
+          <label id="label-retro-good" class="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
+            <span>✨ Was lief richtig gut? (Highlights & Erfolge)</span>
+            <button type="button" onclick="insertPrompt('good')" class="text-[11px] text-brand-600 hover:underline">Idee?</button>
+          </label>
+          <textarea id="in-retro-good" rows="3" oninput="updatePreview()" placeholder="Notizen..." class="w-full text-xs sm:text-sm p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 transition leading-relaxed"></textarea>
+        </div>
+
+        <div>
+          <label id="label-retro-bad" class="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
+            <span>⚠️ Wo gab es Hürden oder Zeitfresser?</span>
+            <button type="button" onclick="insertPrompt('bad')" class="text-[11px] text-brand-600 hover:underline">Idee?</button>
+          </label>
+          <textarea id="in-retro-bad" rows="3" oninput="updatePreview()" placeholder="Notizen..." class="w-full text-xs sm:text-sm p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 transition leading-relaxed"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">
+            💡 Größtes Learning / Erkenntnis für das nächste Mal
+          </label>
+          <input type="text" id="in-retro-learning" oninput="updatePreview()" placeholder="Notizen..." class="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+        </div>
+      </div>
+
+      <!-- Vorausschau (Planung & nächste Schritte) -->
+      <div class="pt-4 border-t border-slate-100 space-y-3">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+          <span>⏩</span> Vorausschau: Nächste Schritte & Ziele
+        </h2>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">
+            🎯 Hauptziel(e) bis zum nächsten Checkpoint
+          </label>
+          <textarea id="in-goals" rows="2" oninput="updatePreview()" placeholder="Notizen..." class="w-full text-xs sm:text-sm p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 transition leading-relaxed"></textarea>
+        </div>
+
+        <!-- Action Items / To-Dos mit Deadline -->
+        <div>
+          <label id="label-tasks" class="block text-xs font-semibold text-slate-700 mb-1">
+            📋 Konkrete Aufgaben (Was mache ich bis wann?)
+          </label>
+          <div id="tasks-container" class="space-y-2">
+            <!-- Row 1 -->
+            <div class="grid grid-cols-12 gap-1.5 task-row">
+              <input type="text" placeholder="Aufgabe / Task" class="task-desc col-span-8 text-xs p-2 rounded-lg border border-slate-200" oninput="updatePreview()">
+              <input type="text" placeholder="Wer?" class="task-who hidden col-span-3 text-xs p-2 rounded-lg border border-slate-200" oninput="updatePreview()">
+              <input type="text" placeholder="Bis wann?" class="task-when col-span-4 text-xs p-2 rounded-lg border border-slate-200" oninput="updatePreview()">
+            </div>
+            <!-- Row 2 -->
+            <div class="grid grid-cols-12 gap-1.5 task-row">
+              <input type="text" placeholder="Aufgabe / Task" class="task-desc col-span-8 text-xs p-2 rounded-lg border border-slate-200" oninput="updatePreview()">
+              <input type="text" placeholder="Wer?" class="task-who hidden col-span-3 text-xs p-2 rounded-lg border border-slate-200" oninput="updatePreview()">
+              <input type="text" placeholder="Bis wann?" class="task-when col-span-4 text-xs p-2 rounded-lg border border-slate-200" oninput="updatePreview()">
+            </div>
+            <!-- Row 3 -->
+            <div class="grid grid-cols-12 gap-1.5 task-row">
+              <input type="text" placeholder="Aufgabe / Task" class="task-desc col-span-8 text-xs p-2 rounded-lg border border-slate-200" oninput="updatePreview()">
+              <input type="text" placeholder="Wer?" class="task-who hidden col-span-3 text-xs p-2 rounded-lg border border-slate-200" oninput="updatePreview()">
+              <input type="text" placeholder="Bis wann?" class="task-when col-span-4 text-xs p-2 rounded-lg border border-slate-200" oninput="updatePreview()">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">
+            🙋 Frage an Lehrkraft / Benötigter Support
+          </label>
+          <input type="text" id="in-support" oninput="updatePreview()" placeholder="Notizen..." class="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT PANEL: Live A4 Printable Document Sheet (Standardmäßig eingeklappt) -->
+    <section id="panel-preview" class="hidden flex-col items-center">
+      <!-- Preview Header Toolbar -->
+      <div class="w-full max-w-[210mm] flex justify-between items-center mb-3 px-1">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+          <span>👁️</span> Live A4-Protokoll
+        </span>
+        <button onclick="togglePreview(false)" class="text-xs font-semibold text-slate-600 hover:text-slate-900 bg-white border border-slate-200 hover:bg-slate-50 px-2.5 py-1 rounded-lg transition flex items-center gap-1 shadow-2xs">
+          <span>✕</span> Vorschau schließen
+        </button>
+      </div>
+      
+      <!-- The A4 Printable Card Sheet -->
+      <div id="print-area" class="a4-sheet bg-white rounded-2xl border border-slate-300 shadow-xl p-8 sm:p-10 flex flex-col justify-between text-slate-800 transition-all relative overflow-hidden">
+        
+        <!-- Header Ribbon Accent -->
+        <div class="absolute top-0 left-0 right-0 h-2.5 bg-gradient-to-r from-brand-600 via-indigo-500 to-violet-500"></div>
+
+        <div>
+          <!-- Top Row: Protocol Meta & Branding -->
+          <div class="flex items-start justify-between border-b border-slate-200 pb-5 mb-6">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span id="preview-tag-type" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-brand-100 text-brand-800">
+                  LERTAGEBUCH • EINZELREFLEXION
+                </span>
+              </div>
+              <h2 id="preview-topic" class="text-2xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                Thema des Projekts
+              </h2>
+            </div>
+            
+            <div class="text-right">
+              <div class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">
+                <span>ByCS Protokoll</span>
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              </div>
+              <div id="preview-date" class="text-xs text-slate-400 font-mono mt-1">26.09.2026</div>
+            </div>
+          </div>
+
+          <!-- Author & Metadata Grid -->
+          <div class="grid grid-cols-2 gap-3 bg-slate-50/80 p-3.5 rounded-xl border border-slate-200/80 mb-6 text-xs">
+            <div>
+              <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400" id="preview-lbl-author">Name</span>
+              <span id="preview-author" class="font-semibold text-slate-800">Max Mustermann</span>
+            </div>
+            <div>
+              <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Status</span>
+              <span class="inline-flex items-center font-semibold text-indigo-700">Reflektiert ✓</span>
+            </div>
+          </div>
+
+          <!-- Mood & Pulse Barometer -->
+          <!-- Preview: Einzelmodus -->
+          <div id="preview-single-mood" class="bg-gradient-to-br from-indigo-50/60 to-purple-50/40 rounded-xl p-4 border border-indigo-100 mb-6 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div id="preview-mood-icon" class="text-3xl bg-white p-2 rounded-xl shadow-xs border border-indigo-100 flex items-center justify-center">
+                🚀
+              </div>
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-500 block" id="preview-lbl-mood">Aktuelle Verfassung</span>
+                <span id="preview-mood-text" class="text-sm font-extrabold text-slate-900">Voll im Flow • Hohe Motivation</span>
+              </div>
+            </div>
+
+            <!-- Productivity Bar -->
+            <div class="flex-1 min-w-[160px] max-w-xs">
+              <div class="flex justify-between items-center mb-1 text-xs">
+                <span class="font-semibold text-slate-700" id="preview-lbl-prod">Fokus & Produktivität</span>
+                <span id="preview-prod-score" class="font-bold text-brand-700">4 / 5</span>
+              </div>
+              <div class="w-full bg-white h-2.5 rounded-full overflow-hidden border border-indigo-100 flex">
+                <div id="preview-prod-bar" class="h-full bg-gradient-to-r from-brand-500 to-indigo-600 rounded-full transition-all duration-300" style="width: 80%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preview: Teammodus Stimmungsboard -->
+          <div id="preview-team-mood" class="hidden bg-gradient-to-br from-indigo-50/40 to-slate-50 rounded-xl p-3.5 border border-indigo-100 mb-6">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-base">🎯</span>
+                <div>
+                  <h4 class="text-xs font-bold text-slate-900 uppercase tracking-tight">Team-Stimmungsboard // Retro-Check</h4>
+                  <p class="text-[10px] text-slate-500">Subjektives Stimmungsbild jedes Mitglieds für die Retrospektive</p>
+                </div>
+              </div>
+              <div id="preview-team-pins-legend" class="flex items-center gap-1.5">
+                <!-- Dynamic dots legend rendered via JS -->
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+              <!-- Rendered Visual Matrix in A4 Print Sheet -->
+              <div class="md:col-span-8 bg-white rounded-lg border border-slate-200 p-2 shadow-2xs relative">
+                <div class="text-center text-[9px] font-bold text-slate-400">▲ Flow & Motivation</div>
+                
+                <div class="relative w-full h-32 bg-slate-50/70 rounded border border-slate-100 overflow-hidden my-0.5" id="preview-board">
+                  <!-- Axes -->
+                  <div class="absolute inset-x-0 top-1/2 h-px bg-slate-200"></div>
+                  <div class="absolute inset-y-0 left-1/2 w-px bg-slate-200"></div>
+                  
+                  <!-- Subtle quadrant labels -->
+                  <div class="absolute top-1 right-1 text-[8px] font-bold text-emerald-600">🚀 Flow & Teamgeist</div>
+                  <div class="absolute top-1 left-1 text-[8px] font-semibold text-amber-600">⚡ Reibung / Tempo</div>
+                  <div class="absolute bottom-1 left-1 text-[8px] font-semibold text-rose-500">🛑 Hürden / Frust</div>
+                  <div class="absolute bottom-1 right-1 text-[8px] font-semibold text-indigo-500">🛋️ Gemütlich</div>
+
+                  <!-- Container for cloned dots -->
+                  <div id="preview-board-dots" class="absolute inset-0 pointer-events-none"></div>
+                </div>
+
+                <div class="flex justify-between text-[8px] font-bold text-slate-400 px-1">
+                  <span>◀ Konflikt / Reibung</span>
+                  <span>Harmonie & Vertrauen ▶</span>
+                </div>
+              </div>
+
+              <!-- Retrospektive Discussion Prompt Box -->
+              <div class="md:col-span-4 bg-white/90 border border-slate-200/90 rounded-lg p-2.5 text-xs flex flex-col justify-between h-full space-y-1.5">
+                <div>
+                  <span class="text-[10px] font-extrabold text-indigo-800 uppercase tracking-wider block mb-1">💡 Diskussions-Impuls</span>
+                  <p id="preview-retro-dialogue" class="text-[11px] text-slate-700 leading-snug">
+                    Vergleicht die Punkte: Wo herrscht Einigkeit und wo gehen die Wahrnehmungen auseinander?
+                  </p>
+                </div>
+                <div class="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
+                  <span>Teamgröße:</span>
+                  <span id="preview-member-count-label" class="font-bold text-slate-800">4 Personen</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 1: Rückblick (Retrospektive) -->
+          <div class="mb-6">
+            <div class="flex items-center gap-2 mb-3 pb-1 border-b border-slate-200">
+              <span class="text-base">⏪</span>
+              <h3 class="text-xs font-black uppercase tracking-wider text-slate-800">1. Rückblick // Bisheriger Verlauf</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Was lief gut -->
+              <div class="bg-emerald-50/50 rounded-xl p-3.5 border border-emerald-100">
+                <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-800 mb-2">
+                  <span>✅</span>
+                  <span id="preview-h-good">Highlights & Erfolge</span>
+                </div>
+                <div id="preview-retro-good" class="text-xs text-slate-700 whitespace-pre-line leading-relaxed min-h-[50px]">
+                  Noch keine Einträge vorhanden.
+                </div>
+              </div>
+
+              <!-- Hürden & Stolpersteine -->
+              <div class="bg-amber-50/50 rounded-xl p-3.5 border border-amber-100">
+                <div class="flex items-center gap-1.5 text-xs font-bold text-amber-800 mb-2">
+                  <span>⚠️</span>
+                  <span id="preview-h-bad">Hürden & Herausforderungen</span>
+                </div>
+                <div id="preview-retro-bad" class="text-xs text-slate-700 whitespace-pre-line leading-relaxed min-h-[50px]">
+                  Keine Hindernisse angegeben.
+                </div>
+              </div>
+            </div>
+
+            <!-- Learning box -->
+            <div class="mt-3 bg-slate-50 rounded-xl p-3 border border-slate-200 flex items-start gap-2.5 text-xs">
+              <span class="text-base">💡</span>
+              <div>
+                <span class="font-bold text-slate-800">Wichtigstes Learning:</span>
+                <span id="preview-learning" class="text-slate-600 ml-1">Noch keine Notiz eingetragen.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 2: Vorausschau & To-Dos -->
+          <div class="mb-6">
+            <div class="flex items-center gap-2 mb-3 pb-1 border-b border-slate-200">
+              <span class="text-base">⏩</span>
+              <h3 class="text-xs font-black uppercase tracking-wider text-slate-800">2. Vorausschau // Ziele & Action Plan</h3>
+            </div>
+
+            <!-- Target Goal -->
+            <div class="bg-indigo-50/40 rounded-xl p-3.5 border border-indigo-100 mb-3">
+              <div class="text-xs font-bold text-indigo-900 mb-1 flex items-center gap-1.5">
+                <span>🎯</span>
+                <span>Hauptziele für die nächste Phase:</span>
+              </div>
+              <div id="preview-goals" class="text-xs text-slate-700 whitespace-pre-line leading-relaxed">
+                Ziele definieren...
+              </div>
+            </div>
+
+            <!-- Tasks Table / List -->
+            <div class="rounded-xl border border-slate-200 overflow-hidden mb-3">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-[10px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-200">
+                  <tr>
+                    <th class="p-2.5">Aufgabe</th>
+                    <th id="th-task-who" class="p-2.5 w-1/4 hidden">Zuständig</th>
+                    <th id="th-task-when" class="p-2.5 w-1/3">Bis wann?</th>
+                  </tr>
+                </thead>
+                <tbody id="preview-tasks-body" class="divide-y divide-slate-100 bg-white text-slate-700">
+                  <tr>
+                    <td class="p-2.5 italic text-slate-400" colspan="2">Keine anstehenden Aufgaben definiert</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Teacher Support Inquiry -->
+            <div class="bg-rose-50/50 rounded-xl p-3 border border-rose-100 flex items-start gap-2 text-xs">
+              <span class="text-base">🙋</span>
+              <div>
+                <span class="font-bold text-rose-900">Frage an die Lehrkraft / Support:</span>
+                <span id="preview-support" class="text-slate-700 ml-1">Keine offenen Fragen. Alles klar!</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Footer Sign-off (Einseiter Validierung) -->
+        <div class="pt-4 border-t border-slate-200 flex items-end justify-between text-[11px] text-slate-400">
+          <div>
+            <span class="font-semibold text-slate-600 block">Selbstreflexion abgeschlossen</span>
+            <span class="text-[10px]">Bereitgestellt für die BayernCloud Schule (ByCS)</span>
+          </div>
+
+          <div class="text-center min-w-[140px]">
+            <div class="h-8 border-b border-dashed border-slate-300 flex items-end justify-center pb-1">
+              <span class="font-signature font-mono text-xs text-indigo-700">Digital bestätigt ✓</span>
+            </div>
+            <span class="text-[9px] uppercase tracking-wider text-slate-400 mt-1 block">Unterschrift / Team-Kürzel</span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    </div>
+  </main>
+
+  <!-- Fullscreen Moodboard Modal -->
+  <div id="modal-moodboard-fullscreen" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm p-4 sm:p-6 flex flex-col justify-center items-center hidden">
+    <div class="bg-white rounded-2xl w-full max-w-4xl max-h-[95vh] p-5 sm:p-6 shadow-2xl border border-slate-200 flex flex-col justify-between overflow-hidden">
+      <!-- Fullscreen Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🎯</span>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Team-Stimmungsboard (Vollbild)</h3>
+            <p class="text-xs text-slate-500">Tippe auf ein Mitglied und setze den Pin auf die Matrix</p>
+          </div>
+        </div>
+        <button onclick="closeMoodboardFullscreen()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition flex items-center gap-1">
+          <span>✕</span> Schließen
+        </button>
+      </div>
+
+      <!-- Member Selector in Fullscreen -->
+      <div class="py-3 flex flex-wrap items-center justify-center gap-2 bg-slate-50/80 my-2 rounded-xl border border-slate-100">
+        <span class="text-xs font-semibold text-slate-600 mr-1">Aktiver Pin:</span>
+        <div id="fullscreen-member-selector" class="flex flex-wrap gap-2">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- High-res Large 2D Board -->
+      <div class="flex-1 w-full flex flex-col justify-center items-center py-1">
+        <div class="text-center text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">
+          ▲ Hohe Motivation & Flow
+        </div>
+
+        <div class="relative w-full h-80 sm:h-96 max-w-2xl bg-slate-50/60 rounded-2xl border-2 border-dashed border-indigo-300 cursor-crosshair overflow-hidden shadow-inner select-none" id="fullscreen-interactive-board" onclick="handleFullscreenBoardClick(event)">
+          <!-- Crosshair Axes -->
+          <div class="absolute inset-x-0 top-1/2 h-0.5 bg-slate-300/80"></div>
+          <div class="absolute inset-y-0 left-1/2 w-0.5 bg-slate-300/80"></div>
+
+          <!-- Quadrant Hints -->
+          <div class="absolute top-3 left-4 text-xs font-bold text-amber-700/80 pointer-events-none bg-amber-50/80 px-2 py-0.5 rounded-md border border-amber-200/50">⚡ Output mit Reibung</div>
+          <div class="absolute top-3 right-4 text-xs font-bold text-emerald-700/80 pointer-events-none bg-emerald-50/80 px-2 py-0.5 rounded-md border border-emerald-200/50">🚀 Flow & Harmonie</div>
+          <div class="absolute bottom-3 left-4 text-xs font-bold text-rose-600/80 pointer-events-none bg-rose-50/80 px-2 py-0.5 rounded-md border border-rose-200/50">🛑 Frust / Blockade</div>
+          <div class="absolute bottom-3 right-4 text-xs font-bold text-indigo-600/80 pointer-events-none bg-indigo-50/80 px-2 py-0.5 rounded-md border border-indigo-200/50">🛋️ Harmonisch, aber träge</div>
+
+          <!-- Placed Dots Container -->
+          <div id="fullscreen-dots-container" class="absolute inset-0 pointer-events-none"></div>
+        </div>
+
+        <div class="flex justify-between items-center w-full max-w-2xl text-xs font-bold text-slate-500 uppercase tracking-wider mt-2 px-2">
+          <span>◀ Konflikte / Reibung</span>
+          <span>▼ Niedrige Motivation</span>
+          <span>Starker Zusammenhalt ▶</span>
+        </div>
+      </div>
+
+      <!-- Footer Action & Impulse in Fullscreen -->
+      <div class="pt-3 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
+        <p id="fullscreen-retro-impulse" class="text-xs text-indigo-900 bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-100 flex-1 min-w-[240px]">
+          💬 Alle Punkte gesetzt? Nutzt das Stimmungsbild für die Retrospektive!
+        </p>
+        <button onclick="closeMoodboardFullscreen()" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs rounded-xl shadow-xs transition">
+          Fertig & Zurück zum Protokoll
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset Confirmation Modal (NO native alert/confirm) -->
+  <div id="modal-reset" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+      <div class="h-12 w-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl mx-auto">
+        🗑️
+      </div>
+      <div class="text-center">
+        <h3 class="text-base font-bold text-slate-900">Formular zurücksetzen?</h3>
+        <p class="text-xs text-slate-500 mt-1">Alle eingegebenen Notizen werden gelöscht. Dies kann nicht rückgängig gemacht werden.</p>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="closeResetModal()" class="flex-1 py-2 text-xs font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+          Abbrechen
+        </button>
+        <button onclick="confirmReset()" class="flex-1 py-2 text-xs font-semibold rounded-xl bg-rose-600 hover:bg-rose-700 text-white transition">
+          Ja, leeren
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Box -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-xs font-medium px-4 py-2.5 rounded-xl shadow-lg transition-all transform translate-y-20 opacity-0 flex items-center gap-2">
+    <span id="toast-icon">✨</span>
+    <span id="toast-text">Mitteilung</span>
+  </div>
+
+  <script>
+    /* State Object */
+    let currentMode = 'single'; // 'single' or 'team'
+    let selectedMood = 'flow';
+
+    /* Team Moodboard State */
+    let teamMemberCount = 4;
+    let activeMemberIndex = 0;
+    const memberColors = [
+      { bg: '#4f46e5', text: '#ffffff', border: '#4338ca', name: 'P1' }, // Indigo
+      { bg: '#06b6d4', text: '#ffffff', border: '#0891b2', name: 'P2' }, // Cyan
+      { bg: '#f59e0b', text: '#ffffff', border: '#d97706', name: 'P3' }, // Amber
+      { bg: '#ec4899', text: '#ffffff', border: '#db2777', name: 'P4' }, // Pink
+      { bg: '#10b981', text: '#ffffff', border: '#059669', name: 'P5' }, // Emerald
+      { bg: '#8b5cf6', text: '#ffffff', border: '#7c3aed', name: 'P6' }, // Violet
+    ];
+
+    // Coordinates in percentage (x: 0-100, y: 0-100; y=0 is top, y=100 is bottom)
+    let teamDots = [
+      { x: 80, y: 25 }, // P1: Top-Right (Flow)
+      { x: 72, y: 35 }, // P2: Top-Right (Flow)
+      { x: 38, y: 30 }, // P3: Top-Left (High output, but friction)
+      { x: 78, y: 45 }, // P4: Balanced
+      { x: 50, y: 50 }, // P5 default
+      { x: 50, y: 50 }, // P6 default
+    ];
+
+    const moodData = {
+      flow: { icon: '🚀', title: 'Voll im Flow', desc: 'Sehr motiviert, kommen top voran' },
+      focused: { icon: '🎯', title: 'Fokussiert', desc: 'Konzentriert bei der Sache' },
+      ok: { icon: '⚖️', title: 'Solide & Stabil', desc: 'Läuft nach Plan' },
+      tired: { icon: '🔋', title: 'Niedrige Energie', desc: 'Erschöpft, brauchen Pause' },
+      stuck: { icon: '🛑', title: 'Blockiert', desc: 'Kommen gerade nicht weiter' },
+      stress: { icon: '🤯', title: 'Unter Zeitdruck', desc: 'Deadline drückt' }
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Set today's date formatted for input
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('in-date').value = today;
+      
+      // Default initial mood
+      selectMood('flow');
+
+      // Initialize team moodboard controls
+      initTeamMoodboard();
+
+      // Start with clean fields by default
+      updatePreview();
+    });
+
+    function initTeamMoodboard() {
+      renderMemberSelector();
+      renderMoodboardDots();
+    }
+
+    function setMemberCount(count) {
+      teamMemberCount = count;
+      if (activeMemberIndex >= count) {
+        activeMemberIndex = 0;
+      }
+
+      // Update button highlights
+      document.querySelectorAll('#member-count-btns .btn-count').forEach(btn => {
+        const num = parseInt(btn.innerText.trim());
+        if (num === count) {
+          btn.className = "btn-count px-2 py-0.5 text-xs rounded active bg-white shadow-xs font-bold text-brand-600";
+        } else {
+          btn.className = "btn-count px-2 py-0.5 text-xs rounded font-medium text-slate-600 hover:text-slate-900";
+        }
+      });
+
+      renderMemberSelector();
+      renderMoodboardDots();
+      updateRetroImpulse();
+    }
+
+    function renderMemberSelector() {
+      const container = document.getElementById('member-selector-list');
+      container.innerHTML = '';
+
+      for (let i = 0; i < teamMemberCount; i++) {
+        const col = memberColors[i];
+        const isActive = (i === activeMemberIndex);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => selectActiveMember(i);
+        btn.className = `px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+          isActive 
+            ? 'ring-2 ring-brand-500 ring-offset-1 shadow-xs bg-slate-900 text-white' 
+            : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+        }`;
+        btn.innerHTML = `
+          <span class="w-3 h-3 rounded-full flex-shrink-0" style="background-color: ${col.bg}"></span>
+          <span>Mitglied ${i + 1}</span>
+          ${isActive ? '<span class="text-[10px] text-amber-300 font-normal">● aktiv</span>' : ''}
+        `;
+        container.appendChild(btn);
+      }
+    }
+
+    function selectActiveMember(index) {
+      activeMemberIndex = index;
+      renderMemberSelector();
+      showToast(`Punkt für Mitglied ${index + 1} auswählen: Klicke jetzt ins Stimmungsfeld!`);
+    }
+
+    function handleBoardClick(event) {
+      const rect = document.getElementById('interactive-board').getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const clickY = event.clientY - rect.top;
+
+      let pctX = Math.round((clickX / rect.width) * 100);
+      let pctY = Math.round((clickY / rect.height) * 100);
+
+      // Clamp between 5% and 95% to keep dots fully inside
+      pctX = Math.max(5, Math.min(95, pctX));
+      pctY = Math.max(5, Math.min(95, pctY));
+
+      teamDots[activeMemberIndex] = { x: pctX, y: pctY };
+      renderMoodboardDots();
+      updateRetroImpulse();
+
+      // Automatically advance to the next member for convenience
+      const nextIdx = (activeMemberIndex + 1) % teamMemberCount;
+      selectActiveMember(nextIdx);
+    }
+
+    function renderMoodboardDots() {
+      const editContainer = document.getElementById('board-dots-container');
+      const previewContainer = document.getElementById('preview-board-dots');
+      const previewLegend = document.getElementById('preview-team-pins-legend');
+      const fullscreenContainer = document.getElementById('fullscreen-dots-container');
+
+      editContainer.innerHTML = '';
+      previewContainer.innerHTML = '';
+      previewLegend.innerHTML = '';
+      if (fullscreenContainer) fullscreenContainer.innerHTML = '';
+
+      for (let i = 0; i < teamMemberCount; i++) {
+        const dot = teamDots[i] || { x: 50, y: 50 };
+        const col = memberColors[i];
+
+        // 1. Dot on Editor board
+        const dotEl = document.createElement('div');
+        dotEl.className = 'absolute transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center font-bold text-[11px] text-white shadow-md border-2 border-white transition-all pointer-events-none';
+        dotEl.style.left = `${dot.x}%`;
+        dotEl.style.top = `${dot.y}%`;
+        dotEl.style.backgroundColor = col.bg;
+        dotEl.innerText = (i + 1);
+        editContainer.appendChild(dotEl);
+
+        // 2. Dot on Preview A4 board
+        const pDotEl = document.createElement('div');
+        pDotEl.className = 'absolute transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] text-white shadow-xs border-2 border-white transition-all';
+        pDotEl.style.left = `${dot.x}%`;
+        pDotEl.style.top = `${dot.y}%`;
+        pDotEl.style.backgroundColor = col.bg;
+        pDotEl.innerText = (i + 1);
+        previewContainer.appendChild(pDotEl);
+
+        // 3. Dot on Fullscreen Board
+        if (fullscreenContainer) {
+          const fsDotEl = document.createElement('div');
+          fsDotEl.className = 'absolute transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm text-white shadow-lg border-2 border-white transition-all pointer-events-none';
+          fsDotEl.style.left = `${dot.x}%`;
+          fsDotEl.style.top = `${dot.y}%`;
+          fsDotEl.style.backgroundColor = col.bg;
+          fsDotEl.innerText = (i + 1);
+          fullscreenContainer.appendChild(fsDotEl);
+        }
+
+        // 4. Mini Legend Badge in Preview Header
+        const legendBadge = document.createElement('span');
+        legendBadge.className = 'inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-white border border-slate-200';
+        legendBadge.innerHTML = `<span class="w-2 h-2 rounded-full" style="background-color: ${col.bg}"></span>M${i + 1}`;
+        previewLegend.appendChild(legendBadge);
+      }
+
+      document.getElementById('preview-member-count-label').innerText = `${teamMemberCount} Personen`;
+    }
+
+    function updateRetroImpulse() {
+      // Analyze dot spread
+      let minX = 100, maxX = 0, minY = 100, maxY = 0;
+      let sumY = 0;
+
+      for (let i = 0; i < teamMemberCount; i++) {
+        const d = teamDots[i];
+        if (d.x < minX) minX = d.x;
+        if (d.x > maxX) maxX = d.x;
+        if (d.y < minY) minY = d.y;
+        if (d.y > maxY) maxY = d.y;
+        sumY += d.y;
+      }
+
+      const spreadX = maxX - minX;
+      const spreadY = maxY - minY;
+      const avgY = sumY / teamMemberCount;
+
+      let impulse = "";
+      if (spreadX > 40 || spreadY > 40) {
+        impulse = "Große Stimmungs-Differenz! Manche erleben Reibung oder fühlen sich gebremst. Diskutiert: Was braucht jedes einzelne Mitglied, um wieder voll anzuknüpfen?";
+      } else if (avgY > 60) {
+        impulse = "Niedrige Gesamt-Motivation im Team. Sprecht offen an: Sind die Aufgaben unklar, ist die Luft raus oder braucht ihr Unterstützung der Lehrkraft?";
+      } else if (minX < 45 && avgY <= 50) {
+        impulse = "Guter Vorwärtsdrang, aber es knirscht bei Absprachen. Klärt im Rückblick: Wer benötigt mehr Klarheit bei den Aufgaben?";
+      } else {
+        impulse = "Klasse Team-Harmonie & starker Flow! Haltet dieses Momentum und verabredet konkrete nächste Schritte für den Sprint.";
+      }
+
+      document.getElementById('team-retro-hint-text').innerText = impulse;
+      document.getElementById('preview-retro-dialogue').innerText = impulse;
+      const fsImpulse = document.getElementById('fullscreen-retro-impulse');
+      if (fsImpulse) fsImpulse.innerText = '💬 ' + impulse;
+    }
+
+    /* Fullscreen Moodboard handlers */
+    function openMoodboardFullscreen() {
+      renderFullscreenMemberSelector();
+      renderMoodboardDots();
+      updateRetroImpulse();
+      document.getElementById('modal-moodboard-fullscreen').classList.remove('hidden');
+    }
+
+    function closeMoodboardFullscreen() {
+      document.getElementById('modal-moodboard-fullscreen').classList.add('hidden');
+    }
+
+    function renderFullscreenMemberSelector() {
+      const container = document.getElementById('fullscreen-member-selector');
+      container.innerHTML = '';
+
+      for (let i = 0; i < teamMemberCount; i++) {
+        const col = memberColors[i];
+        const isActive = (i === activeMemberIndex);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => {
+          selectActiveMember(i);
+          renderFullscreenMemberSelector();
+        };
+        btn.className = `px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+          isActive 
+            ? 'ring-2 ring-brand-500 ring-offset-2 shadow-md bg-slate-900 text-white' 
+            : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-100'
+        }`;
+        btn.innerHTML = `
+          <span class="w-3.5 h-3.5 rounded-full flex-shrink-0" style="background-color: ${col.bg}"></span>
+          <span>Mitglied ${i + 1}</span>
+          ${isActive ? '<span class="text-[10px] text-amber-300 font-semibold">● an der Reihe</span>' : ''}
+        `;
+        container.appendChild(btn);
+      }
+    }
+
+    function handleFullscreenBoardClick(event) {
+      const rect = document.getElementById('fullscreen-interactive-board').getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const clickY = event.clientY - rect.top;
+
+      let pctX = Math.round((clickX / rect.width) * 100);
+      let pctY = Math.round((clickY / rect.height) * 100);
+
+      pctX = Math.max(5, Math.min(95, pctX));
+      pctY = Math.max(5, Math.min(95, pctY));
+
+      teamDots[activeMemberIndex] = { x: pctX, y: pctY };
+      renderMoodboardDots();
+      updateRetroImpulse();
+
+      const nextIdx = (activeMemberIndex + 1) % teamMemberCount;
+      selectActiveMember(nextIdx);
+      renderFullscreenMemberSelector();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      
+      const btnSingle = document.getElementById('btn-mode-single');
+      const btnTeam = document.getElementById('btn-mode-team');
+      const badge = document.getElementById('label-mode-badge');
+      const previewTag = document.getElementById('preview-tag-type');
+
+      const editorSingle = document.getElementById('editor-single-mood');
+      const editorTeam = document.getElementById('editor-team-moodboard');
+      const previewSingle = document.getElementById('preview-single-mood');
+      const previewTeam = document.getElementById('preview-team-mood');
+
+      if (mode === 'single') {
+        btnSingle.className = "px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all shadow-xs bg-white text-slate-900";
+        btnTeam.className = "px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900";
+        badge.innerText = "Einzelmodus";
+        badge.className = "text-xs bg-indigo-50 text-brand-600 px-2 py-0.5 rounded-full font-medium";
+
+        // Show Single panels, hide Team moodboard
+        editorSingle.classList.remove('hidden');
+        editorTeam.classList.add('hidden');
+        previewSingle.classList.remove('hidden');
+        previewTeam.classList.add('hidden');
+
+        document.getElementById('label-author').innerText = "Name / Verfasser";
+        document.getElementById('label-slider').innerText = "Mein Fokus- & Energielevel";
+        document.getElementById('preview-lbl-author').innerText = "Name";
+        document.getElementById('preview-lbl-mood').innerText = "Mein Energie-Level";
+        document.getElementById('preview-lbl-prod').innerText = "Persönlicher Fokus";
+        document.getElementById('preview-h-good').innerText = "Was lief für mich gut?";
+        document.getElementById('preview-h-bad').innerText = "Meine Hürden / Zeitfresser";
+        previewTag.innerText = "LERTAGEBUCH • EINZELREFLEXION";
+        previewTag.className = "px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-brand-100 text-brand-800";
+
+        // Single Mode: Tasks without "Wer?"
+        document.getElementById('label-tasks').innerText = "📋 Konkrete Aufgaben (Was mache ich bis wann?)";
+        document.getElementById('th-task-who').classList.add('hidden');
+        document.getElementById('th-task-when').className = "p-2.5 w-1/3";
+        
+        document.querySelectorAll('.task-row').forEach(row => {
+          const desc = row.querySelector('.task-desc');
+          const who = row.querySelector('.task-who');
+          const when = row.querySelector('.task-when');
+          who.classList.add('hidden');
+          who.classList.remove('col-span-3');
+          desc.className = "task-desc col-span-8 text-xs p-2 rounded-lg border border-slate-200";
+          when.className = "task-when col-span-4 text-xs p-2 rounded-lg border border-slate-200";
+        });
+      } else {
+        btnTeam.className = "px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all shadow-xs bg-white text-slate-900";
+        btnSingle.className = "px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900";
+        badge.innerText = "Teammodus";
+        badge.className = "text-xs bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full font-medium";
+
+        // Show Team moodboard, hide Single panels
+        editorSingle.classList.add('hidden');
+        editorTeam.classList.remove('hidden');
+        previewSingle.classList.add('hidden');
+        previewTeam.classList.remove('hidden');
+
+        document.getElementById('label-author').innerText = "Team-Name & Mitglieder";
+        document.getElementById('preview-lbl-author').innerText = "Team / Mitglieder";
+        document.getElementById('preview-h-good').innerText = "Highlights im Team";
+        document.getElementById('preview-h-bad').innerText = "Hürden in der Zusammenarbeit";
+        previewTag.innerText = "SPRINT-CHECK • TEAMREFLEXION";
+        previewTag.className = "px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-purple-100 text-purple-800";
+
+        // Team Mode: Tasks with "Wer?"
+        document.getElementById('label-tasks').innerText = "📋 Konkrete Aufgaben (Wer macht was bis wann?)";
+        document.getElementById('th-task-who').classList.remove('hidden');
+        document.getElementById('th-task-when').className = "p-2.5 w-1/4";
+
+        document.querySelectorAll('.task-row').forEach(row => {
+          const desc = row.querySelector('.task-desc');
+          const who = row.querySelector('.task-who');
+          const when = row.querySelector('.task-when');
+          who.classList.remove('hidden');
+          who.classList.add('col-span-3');
+          desc.className = "task-desc col-span-6 text-xs p-2 rounded-lg border border-slate-200";
+          when.className = "task-when col-span-3 text-xs p-2 rounded-lg border border-slate-200";
+        });
+
+        renderMoodboardDots();
+        updateRetroImpulse();
+      }
+
+      updatePreview();
+      showToast('Modus gewechselt: ' + (mode === 'single' ? 'Einzelreflexion' : 'Team-Sprint'));
+    }
+
+    function selectMood(moodKey) {
+      selectedMood = moodKey;
+      document.querySelectorAll('.mood-btn').forEach(btn => {
+        if (btn.dataset.mood === moodKey) {
+          btn.classList.add('border-brand-500', 'bg-indigo-50/70', 'ring-2', 'ring-brand-500/20');
+          btn.classList.remove('border-slate-200', 'bg-slate-50');
+        } else {
+          btn.classList.remove('border-brand-500', 'bg-indigo-50/70', 'ring-2', 'ring-brand-500/20');
+          btn.classList.add('border-slate-200', 'bg-slate-50');
+        }
+      });
+      updatePreview();
+    }
+
+    function updateSlider(val) {
+      document.getElementById('slider-val').innerText = val + " / 5";
+      updatePreview();
+    }
+
+    function updatePreview() {
+      // 1. Topic & Meta
+      const topicVal = document.getElementById('in-topic').value.trim();
+      document.getElementById('preview-topic').innerText = topicVal || (currentMode === 'single' ? 'Mein Projekt-Thema' : 'Unser Team-Projekt');
+      
+      const authorVal = document.getElementById('in-author').value.trim();
+      document.getElementById('preview-author').innerText = authorVal || (currentMode === 'single' ? 'Schüler/in' : 'Teammitglieder');
+
+      const dateVal = document.getElementById('in-date').value;
+      if (dateVal) {
+        const parts = dateVal.split('-');
+        if (parts.length === 3) {
+          document.getElementById('preview-date').innerText = `${parts[2]}.${parts[1]}.${parts[0]}`;
+        }
+      }
+
+      // 2. Mood & Productivity Bar
+      const mood = moodData[selectedMood] || moodData.flow;
+      document.getElementById('preview-mood-icon').innerText = mood.icon;
+      document.getElementById('preview-mood-text').innerText = `${mood.title} • ${mood.desc}`;
+
+      const prodVal = document.getElementById('in-productivity').value;
+      document.getElementById('preview-prod-score').innerText = `${prodVal} / 5`;
+      document.getElementById('preview-prod-bar').style.width = `${(prodVal / 5) * 100}%`;
+
+      // 3. Retrospective (Good & Bad)
+      const retroGood = document.getElementById('in-retro-good').value.trim();
+      document.getElementById('preview-retro-good').innerText = retroGood || '• Noch keine Erfolge notiert.';
+
+      const retroBad = document.getElementById('in-retro-bad').value.trim();
+      document.getElementById('preview-retro-bad').innerText = retroBad || '• Keine Hürden festgestellt.';
+
+      const learning = document.getElementById('in-retro-learning').value.trim();
+      document.getElementById('preview-learning').innerText = learning || 'Regelmäßige Reflexion stärkt das Ziel.';
+
+      // 4. Forward Targets
+      const goals = document.getElementById('in-goals').value.trim();
+      document.getElementById('preview-goals').innerText = goals || '• Klare Meilensteine definieren und angehen.';
+
+      // 5. Tasks Table
+      const taskRows = document.querySelectorAll('.task-row');
+      const tbody = document.getElementById('preview-tasks-body');
+      let tasksHtml = '';
+      let hasTasks = false;
+
+      taskRows.forEach(row => {
+        const desc = row.querySelector('.task-desc').value.trim();
+        const who = row.querySelector('.task-who').value.trim();
+        const when = row.querySelector('.task-when').value.trim();
+
+        if (currentMode === 'single') {
+          if (desc || when) {
+            hasTasks = true;
+            tasksHtml += `
+              <tr class="hover:bg-slate-50/50">
+                <td class="p-2.5 font-medium text-slate-800">${escapeHtml(desc || '-')}</td>
+                <td class="p-2.5 font-mono text-[11px] text-brand-600 font-semibold">${escapeHtml(when || 'Offen')}</td>
+              </tr>
+            `;
+          }
+        } else {
+          if (desc || who || when) {
+            hasTasks = true;
+            tasksHtml += `
+              <tr class="hover:bg-slate-50/50">
+                <td class="p-2.5 font-medium text-slate-800">${escapeHtml(desc || '-')}</td>
+                <td class="p-2.5 text-slate-600">${escapeHtml(who || 'Alle')}</td>
+                <td class="p-2.5 font-mono text-[11px] text-brand-600 font-semibold">${escapeHtml(when || 'Offen')}</td>
+              </tr>
+            `;
+          }
+        }
+      });
+
+      if (!hasTasks) {
+        const colCount = currentMode === 'single' ? 2 : 3;
+        tbody.innerHTML = `
+          <tr>
+            <td class="p-2.5 italic text-slate-400" colspan="${colCount}">Keine anstehenden Aufgaben definiert</td>
+          </tr>
+        `;
+      } else {
+        tbody.innerHTML = tasksHtml;
+      }
+
+      // 6. Teacher support question
+      const support = document.getElementById('in-support').value.trim();
+      document.getElementById('preview-support').innerText = support || 'Keine offenen Fragen. Alles auf Kurs!';
+    }
+
+    /* Helper: Escape HTML string */
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function insertPrompt(type) {
+      if (type === 'good') {
+        const goodPrompts = [
+          "• Zeitplan super eingehalten und Zwischenziele früher erreicht\n• Sehr gute Recherchequellen gefunden und strukturiert\n• Reibungslose Absprachen und keine Missverständnisse",
+          "• Kreative Designidee erfolgreich umgesetzt\n• Fehler im Konzept frühzeitig bemerkt und behoben\n• Hohe Konzentration ohne Ablenkungen durchs Handy",
+          "• Toller Austausch in der Gruppe, jede Meinung zählte\n• Wichtigen Meilenstein vor dem Wochenende fertiggestellt"
+        ];
+        const pick = goodPrompts[Math.floor(Math.random() * goodPrompts.length)];
+        document.getElementById('in-retro-good').value = pick;
+      } else {
+        const badPrompts = [
+          "• Uns zu lange an Nebensächlichkeiten aufgehalten\n• Dateiversionen verwechselt / Absprache per Messenger war unklar\n• Recherche war unübersichtlich und hat Zeit geraubt",
+          "• Zeitmanagement war zu optimistisch angesetzt\n• Technische Software-Tools wollten nicht so wie gedacht\n• Unklarheit über die genauen Vorgaben der Lehrkraft",
+          "• Aufgabenverteilung war ungleichmäßig"
+        ];
+        const pick = badPrompts[Math.floor(Math.random() * badPrompts.length)];
+        document.getElementById('in-retro-bad').value = pick;
+      }
+      updatePreview();
+      showToast('Inspirations-Vorschlag eingefügt ✨');
+    }
+
+    function loadDemoData() {
+      if (currentMode === 'single') {
+        document.getElementById('in-topic').value = "Portfolio: Künstliche Intelligenz in der Gesellschaft";
+        document.getElementById('in-author').value = "Jonas Weber";
+        selectMood('flow');
+        document.getElementById('in-productivity').value = 4;
+        updateSlider(4);
+        
+        document.getElementById('in-retro-good').value = "• Facharbeit-Gliederung steht vollständig\n• 3 wissenschaftliche Studien zusammengefasst\n• Erste Grafiken für die Veranschaulichung erstellt";
+        document.getElementById('in-retro-bad').value = "• Habe mich zu lange mit Formatierungen in Word aufgehalten\n• Begriffsdefinition von neuronalen Netzen war anfangs verwirrend";
+        document.getElementById('in-retro-learning').value = "Erst den Text komplett herunterschreiben, Formatierung erst ganz zum Schluss!";
+        document.getElementById('in-goals').value = "• Kapitel 2 'Ethische Herausforderungen' bis Freitag fertig schreiben\n• Fazit-Skizze anlegen";
+        
+        const tasks = [
+          { desc: "Experteninterview transkribieren", who: "", when: "Dienstag" },
+          { desc: "Zitierweise prüfen (APA-Stil)", who: "", when: "Donnerstag" },
+          { desc: "Entwurf für Feedback an Lehrkraft senden", who: "", when: "Freitag" }
+        ];
+        populateTasks(tasks);
+
+        document.getElementById('in-support').value = "Reicht für das Interview eine Tonaufnahme als Beleg im ByCS-Anhang?";
+      } else {
+        document.getElementById('in-topic').value = "Podcast-Reihe: Zukunft unserer Stadt 2035";
+        document.getElementById('in-author').value = "Mia, Leon, Sofie & Tim";
+        
+        // Setup 4 team member dots with realistic retro distribution
+        setMemberCount(4);
+        teamDots[0] = { x: 82, y: 22 }; // Mia: Flow & Harmonie
+        teamDots[1] = { x: 74, y: 35 }; // Leon: Gut dabei
+        teamDots[2] = { x: 34, y: 28 }; // Sofie: Unter Zeitdruck/Schnittsoftware abgestürzt
+        teamDots[3] = { x: 78, y: 48 }; // Tim: Gechillt
+        renderMoodboardDots();
+        updateRetroImpulse();
+
+        document.getElementById('in-retro-good').value = "• Alle 3 Interviews im Rathaus erfolgreich aufgenommen\n• Tolle Audioqualität und lockere Gesprächsatmosphäre\n• Intro-Musik selbst lizenziert";
+        document.getElementById('in-retro-bad').value = "• Schnittsoftware Audacity ist auf einem Laptop abgestürzt\n• Zeitplan für die Rohfassung um zwei Tage überzogen";
+        document.getElementById('in-retro-learning').value = "Backups immer direkt nach der Aufnahme in ByCS sichern!";
+        document.getElementById('in-goals').value = "• Folge 1 final schneiden, abmischen und als MP3 exportieren\n• Begleitendes Dossier layouten";
+
+        const tasks = [
+          { desc: "Audio-Schnitt & O-Töne kürzen", who: "Leon & Tim", when: "Mittwoch" },
+          { desc: "Show-Notes & Quellenverzeichnis tippen", who: "Sofie", when: "Donnerstag" },
+          { desc: "Cover-Artwork in Canva finalisieren", who: "Mia", when: "Freitag" }
+        ];
+        populateTasks(tasks);
+
+        document.getElementById('in-support').value = "Können wir am Donnerstag für 30 Minuten das Mikrofon aus dem Medienraum ausleihen?";
+      }
+      updatePreview();
+      showToast('Vorlage geladen 💡');
+    }
+
+    function populateTasks(taskList) {
+      const rows = document.querySelectorAll('.task-row');
+      rows.forEach((row, i) => {
+        if (taskList[i]) {
+          row.querySelector('.task-desc').value = taskList[i].desc;
+          row.querySelector('.task-who').value = taskList[i].who;
+          row.querySelector('.task-when').value = taskList[i].when;
+        } else {
+          row.querySelector('.task-desc').value = "";
+          row.querySelector('.task-who').value = "";
+          row.querySelector('.task-when').value = "";
+        }
+      });
+    }
+
+    function promptResetModal() {
+      document.getElementById('modal-reset').classList.remove('hidden');
+    }
+
+    function closeResetModal() {
+      document.getElementById('modal-reset').classList.add('hidden');
+    }
+
+    function confirmReset() {
+      document.getElementById('in-topic').value = '';
+      document.getElementById('in-author').value = '';
+      document.getElementById('in-retro-good').value = '';
+      document.getElementById('in-retro-bad').value = '';
+      document.getElementById('in-retro-learning').value = '';
+      document.getElementById('in-goals').value = '';
+      document.getElementById('in-support').value = '';
+
+      document.querySelectorAll('.task-row').forEach(row => {
+        row.querySelector('.task-desc').value = '';
+        row.querySelector('.task-who').value = '';
+        row.querySelector('.task-when').value = '';
+      });
+
+      selectMood('ok');
+      updateSlider(3);
+      updatePreview();
+      closeResetModal();
+      showToast('Formular geleert 🗑️');
+    }
+
+    function exportAsPNG() {
+      showToast('PNG wird generiert... Bitte kurz warten ⏳');
+      const target = document.getElementById('print-area');
+      const previewPanel = document.getElementById('panel-preview');
+      const wasHidden = previewPanel.classList.contains('hidden');
+
+      // Falls die Vorschau gerade geschlossen ist, kurz für den Export sichtbar machen
+      if (wasHidden) {
+        previewPanel.classList.remove('hidden');
+        updatePreview();
+      }
+
+      html2canvas(target, {
+        scale: 2, // Retinal high resolution
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false
+      }).then(canvas => {
+        const link = document.createElement('a');
+        const filename = (document.getElementById('in-topic').value.trim() || 'Reflexion')
+          .toLowerCase()
+          .replace(/[^a-z0-9]/gi, '_');
+        
+        link.download = `ByCS_Reflexion_${filename}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        showToast('PNG erfolgreich heruntergeladen! 🎉');
+      }).catch(err => {
+        console.error(err);
+        showToast('Export-Fehler beim PNG. Bitte erneut versuchen!');
+      }).finally(() => {
+        if (wasHidden) {
+          previewPanel.classList.add('hidden');
+        }
+      });
+    }
+
+    let isPreviewOpen = false;
+
+    function togglePreview(forceState = null) {
+      if (forceState !== null) {
+        isPreviewOpen = forceState;
+      } else {
+        isPreviewOpen = !isPreviewOpen;
+      }
+
+      const mainContainer = document.getElementById('main-container');
+      const gridContainer = document.getElementById('grid-container');
+      const editorPanel = document.getElementById('panel-editor');
+      const previewPanel = document.getElementById('panel-preview');
+      const btn = document.getElementById('btn-toggle-preview');
+      const btnText = document.getElementById('btn-toggle-preview-text');
+      const btnIcon = document.getElementById('btn-toggle-preview-icon');
+
+      if (isPreviewOpen) {
+        // Vorschau einblenden: 2-Spalten-Layout
+        mainContainer.className = "flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 transition-all duration-300";
+        gridContainer.className = "w-full grid grid-cols-1 xl:grid-cols-12 gap-6 items-start";
+        editorPanel.className = "xl:col-span-5 w-full bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 space-y-6";
+        previewPanel.className = "xl:col-span-7 flex flex-col items-center mt-6 xl:mt-0";
+        
+        btn.className = "px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 transition flex items-center gap-1.5 shadow-2xs";
+        btnText.innerText = "Vorschau ausblenden";
+        btnIcon.innerText = "✕";
+
+        updatePreview();
+        showToast('Live-Vorschau eingeblendet 👁️');
+
+        // Auf kleineren Bildschirmen sanft zur Vorschau scrollen
+        if (window.innerWidth < 1280) {
+          setTimeout(() => {
+            previewPanel.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        }
+      } else {
+        // Vorschau ausblenden: Fokus auf Eingabe
+        mainContainer.className = "flex-1 max-w-3xl w-full mx-auto p-4 sm:p-6 transition-all duration-300";
+        gridContainer.className = "w-full";
+        editorPanel.className = "w-full bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 space-y-6";
+        previewPanel.className = "hidden flex-col items-center";
+
+        btn.className = "px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-brand-700 transition flex items-center gap-1.5 shadow-xs";
+        btnText.innerText = "Vorschau anzeigen";
+        btnIcon.innerText = "👁️";
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const text = document.getElementById('toast-text');
+      text.innerText = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3200);
+    }
+  </script>
+</body>
+</html>

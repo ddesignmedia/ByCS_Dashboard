@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Präsentation | ByCS-Dashboard & KI-gestützte Moodle-Analyse</title>
+    <meta name="description"
+        content="Interaktive Präsentation der Features des ByCS-Dashboards für Lehrer und Schüler: Automatisierte Defizitanalyse und sokratische KI-Tutor-Prompts.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* CSS Variables for design system */
+        :root {
+            --bg-base: #06080b;
+            --bg-card: rgba(13, 17, 24, 0.7);
+            --bg-card-hover: rgba(22, 28, 38, 0.85);
+            --bg-glass: rgba(13, 17, 24, 0.45);
+
+            --accent-blue: #3b82f6;
+            --accent-blue-rgb: 59, 130, 246;
+            --accent-green: #10b981;
+            --accent-green-rgb: 16, 185, 129;
+            --accent-purple: #8b5cf6;
+            --accent-purple-rgb: 139, 92, 246;
+            --accent-orange: #f97316;
+            --accent-orange-rgb: 249, 115, 22;
+            --accent-cyan: #06b6d4;
+            --accent-cyan-rgb: 6, 182, 212;
+            --accent-pink: #ec4899;
+            --accent-pink-rgb: 236, 72, 153;
+
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.18);
+
+            --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 8px;
+
+            --transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            background-image:
+                radial-gradient(circle at 5% 15%, rgba(59, 130, 246, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 95% 85%, rgba(139, 92, 246, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition-default);
+        }
+
+        header {
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(6, 8, 11, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 16px 0;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.3rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--border-radius-sm);
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            color: var(--accent-orange);
+        }
+
+        /* Controls / Switch View mode */
+        .view-switch {
+            display: flex;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            padding: 4px;
+            border-radius: 9999px;
+            gap: 4px;
+        }
+
+        .btn-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition-default);
+        }
+
+        .btn-toggle.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* PRESENTATION MODE STYLES */
+        .presentation-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .slide-deck {
+            position: relative;
+            width: 100%;
+            min-height: 560px;
+            display: grid;
+            grid-template-columns: 1fr;
+            align-items: center;
+        }
+
+        .slide {
+            grid-area: 1 / 1 / 2 / 2;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(50px) scale(0.98);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0) scale(1);
+            z-index: 10;
+        }
+
+        .slide.exit {
+            transform: translateX(-50px) scale(0.98);
+        }
+
+        /* Slide Content */
+        .slide-info {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .slide-tag {
+            align-self: flex-start;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            border: 1px solid currentColor;
+        }
+
+        .slide-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+        }
+
+        .slide-desc {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .slide-features-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .slide-features-list li {
+            position: relative;
+            padding-left: 28px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .slide-features-list li strong {
+            color: var(--text-primary);
+        }
+
+        .slide-features-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: inherit;
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+
+        /* Media box */
+        .slide-media {
+            position: relative;
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: #000;
+            aspect-ratio: 16 / 10;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-default);
+        }
+
+        .slide-media:hover {
+            border-color: var(--border-hover);
+            transform: scale(1.01);
+        }
+
+        .slide-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-default);
+        }
+
+        /* Carousel for multiple images in a slide */
+        .slide-media-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-img {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .carousel-img.active {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+            z-index: 1;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 5;
+            background: rgba(0,0,0,0.5);
+            padding: 4px 8px;
+            border-radius: 9999px;
+            backdrop-filter: blur(4px);
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .carousel-dot.active {
+            background: #fff;
+            width: 18px;
+            border-radius: 4px;
+        }
+
+        /* Nav-Bar for Slide navigation */
+        .presentation-nav {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .slide-indicators {
+            display: flex;
+            gap: 8px;
+        }
+
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: var(--transition-default);
+            padding: 0;
+        }
+
+        .indicator-dot.active {
+            background: var(--text-primary);
+            transform: scale(1.25);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-nav {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-default);
+        }
+
+        .btn-nav:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* ALL-PAGES SCROLL MODE STYLES */
+        .scroll-container {
+            display: none;
+            padding: 60px 0;
+            flex-direction: column;
+            gap: 80px;
+        }
+
+        .scroll-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 60px;
+        }
+
+        .scroll-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .scroll-section:nth-child(even) {
+            direction: rtl;
+        }
+
+        .scroll-section:nth-child(even) .scroll-info {
+            direction: ltr;
+        }
+
+        .scroll-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .scroll-media {
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            aspect-ratio: 16 / 10;
+            background: #000;
+            cursor: pointer;
+        }
+
+        .scroll-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-default);
+        }
+
+        .scroll-media img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Lightbox for viewing images full scale */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 8, 11, 0.95);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.8);
+            border: 1px solid var(--border-color);
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-default);
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255,255,255,0.15);
+            transform: scale(1.1);
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: 24px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        /* Specific tag styles */
+        .tag-blue { color: var(--accent-blue); }
+        .tag-cyan { color: var(--accent-cyan); }
+        .tag-green { color: var(--accent-green); }
+        .tag-purple { color: var(--accent-purple); }
+        .tag-orange { color: var(--accent-orange); }
+        .tag-pink { color: var(--accent-pink); }
+
+        /* Responsive styling */
+        @media (max-width: 992px) {
+            .slide {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 24px;
+            }
+
+            .scroll-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding-bottom: 40px;
+            }
+
+            .scroll-section:nth-child(even) {
+                direction: ltr;
+            }
+
+            .slide-deck {
+                min-height: 700px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .slide-deck {
+                min-height: 800px;
+            }
+            .view-switch {
+                display: none;
+            }
+            .presentation-nav {
+                justify-content: center;
+            }
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
+            padding: 30px 0;
+            background: rgba(6, 8, 11, 0.9);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 20px;
+            transition: var(--transition-default);
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .footer-social-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition-default);
+        }
+
+        .footer-social-link:hover {
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                </div>
+                <span>ByCS-Dashboard</span>
+            </a>
+
+            <!-- View Switcher -->
+            <div class="view-switch">
+                <button class="btn-toggle active" id="btn-slides" onclick="setViewMode('slides')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="9" y1="9" x2="21" y2="9"></line></svg>
+                    Folien-Ansicht
+                </button>
+                <button class="btn-toggle" id="btn-scroll" onclick="setViewMode('scroll')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                    Alle Seiten scrollen
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN PRESENTATION AREA -->
+    <main class="container" style="flex-grow: 1; display: flex; flex-direction: column;">
+        
+        <!-- 1. SLIDES MODE -->
+        <div class="presentation-container" id="slides-view">
+            <div class="slide-deck">
+                
+                <!-- Slide 1: Welcome & Overview -->
+                <div class="slide active" id="slide-0" style="--tag-color: var(--accent-blue);">
+                    <div class="slide-info">
+                        <span class="slide-tag tag-blue">Überblick</span>
+                        <h2 class="slide-title">Didaktische Moodle-Analyse mit dem ByCS-Dashboard</h2>
+                        <p class="slide-desc">Moodle- und mebis-Tests liefern Noten. Das ByCS-Dashboard liefert Erkenntnisse. Erfassen Sie den Lernstand Ihrer Klasse vollautomatisch und schließen Sie Lücken gezielt mit KI-Unterstützung.</p>
+                        <ul class="slide-features-list">
+                            <li><strong>Schneller Upload:</strong> Direktes Einlesen der Mebis-Exportdateien.</li>
+                            <li><strong>Gamification & Motivation:</strong> Optionaler Schüler-Highscore für spielerischen Ehrgeiz.</li>
+                            <li><strong>Didaktischer Mehrwert:</strong> Identifikation der schwersten Klassendefizite im Handumdrehen.</li>
+                        </ul>
+                    </div>
+                    <div class="slide-media" onclick="openLightbox('img/Klassenuebersicht.jpg', 'Die Klassenübersicht des Dashboards zeigt die Notenverteilung, Ränge und Leistungsentwicklung im Überblick.')">
+                        <img src="img/Klassenuebersicht.jpg" alt="ByCS-Dashboard Klassenübersicht">
+                    </div>
+                </div>
+
+                <!-- Slide 2: Klassenstatistik & Detailansicht -->
+                <div class="slide" id="slide-1" style="--tag-color: var(--accent-cyan);">
+                    <div class="slide-info">
+                        <span class="slide-tag tag-cyan">Lehrer-Ansicht</span>
+                        <h2 class="slide-title">Detailanalysen & Notenspiegel</h2>
+                        <p class="slide-desc">Analysieren Sie die Leistungen der gesamten Klasse oder tauchen Sie tief in die Ergebnisse einzelner Schüler ein. Erkennen Sie auf einen Blick, wer Unterstützung benötigt.</p>
+                        <ul class="slide-features-list">
+                            <li><strong>Statistischer Notenspiegel:</strong> Visualisierte Verteilung der Klassenleistung.</li>
+                            <li><strong>Detaillierte Schülerlisten:</strong> Punkte, Bearbeitungszeiten und Ränge übersichtlich aufgeschlüsselt.</li>
+                            <li><strong>Einzelauswertung:</strong> Gezielter Einblick in die abgegebenen Antworten jedes Schülers.</li>
+                        </ul>
+                    </div>
+                    <div class="slide-media-carousel slide-media">
+                        <img class="carousel-img active" src="img/Detailansicht_Lehrer.jpg" alt="Detailansicht Lehrer" onclick="openLightbox('img/Detailansicht_Lehrer.jpg', 'Detailansicht für Lehrer: Detaillierte Punkteverteilung und Zeitauswertung je Schüler.')">
+                        <img class="carousel-img" src="img/Highscores.jpg" alt="Highscores" onclick="openLightbox('img/Highscores.jpg', 'Gamification im Unterricht: Eine Bestenliste motiviert Schüler, sich zu verbessern.')">
+                        <div class="carousel-controls">
+                            <button class="carousel-dot active" onclick="setCarouselImage(1, 0, event)"></button>
+                            <button class="carousel-dot" onclick="setCarouselImage(1, 1, event)"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Fehlerkonzept & Fragenanalyse -->
+                <div class="slide" id="slide-2" style="--tag-color: var(--accent-green);">
+                    <div class="slide-info">
+                        <span class="slide-tag tag-green">Fehleranalyse</span>
+                        <h2 class="slide-title">Erfolgsquoten & Trennschärfen</h2>
+                        <p class="slide-desc">Welche Frage war zu schwer, welche war ungenau formuliert? Das Dashboard wertet jede Frage statistisch aus und listet die schwierigsten Aufgaben.</p>
+                        <ul class="slide-features-list">
+                            <li><strong>Fragen-Statistiken:</strong> Erfolgsquote und Trennschärfe für jede Testfrage.</li>
+                            <li><strong>Top-5-Defizite:</strong> Das System filtert automatisch die 5 Aufgaben mit der schlechtesten Erfolgsquote heraus.</li>
+                            <li><strong>Unterrichts-Fokus:</strong> Konzentrieren Sie sich in der Nachbereitung auf das, was wirklich schiefgelaufen ist.</li>
+                        </ul>
+                    </div>
+                    <div class="slide-media-carousel slide-media">
+                        <img class="carousel-img active" src="img/Fragenanalyse.png" alt="Fragenanalyse" onclick="openLightbox('img/Fragenanalyse.png', 'Detaillierte Analyse der einzelnen Fragen und deren Beantwortungsquote.')">
+                        <img class="carousel-img" src="img/Defiztite_Unterricht.png" alt="Klassendefizite" onclick="openLightbox('img/Defiztite_Unterricht.png', 'Die Top-5-Defizite zeigen der Lehrkraft sofort die größten Lücken der Klasse.')">
+                        <div class="carousel-controls">
+                            <button class="carousel-dot active" onclick="setCarouselImage(2, 0, event)"></button>
+                            <button class="carousel-dot" onclick="setCarouselImage(2, 1, event)"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Der Didaktische Hebel (Lehrer-KI) -->
+                <div class="slide" id="slide-3" style="--tag-color: var(--accent-purple);">
+                    <div class="slide-info">
+                        <span class="slide-tag tag-purple">KI-Auswertung</span>
+                        <h2 class="slide-title">Didaktische Analyse per Knopfdruck</h2>
+                        <p class="slide-desc">Sparen Sie Zeit bei der Unterrichtsvorbereitung. Kopieren Sie den automatisch generierten Prompt für eine KI Ihrer Wahl, um eine didaktische Auswertung der Fehler zu erhalten.</p>
+                        <ul class="slide-features-list">
+                            <li><strong>Automatischer Prompt-Export:</strong> Beinhaltet alle Fehlstatistiken und Original-Fragentexte.</li>
+                            <li><strong>Typische Fehlkonzepte erkennen:</strong> Die KI erklärt, warum Schüler falsch lagen.</li>
+                            <li><strong>Unterrichts-Entwürfe:</strong> Erhalten Sie direkt strukturierte Vorschläge und Tafelbilder für die Folgestunde.</li>
+                        </ul>
+                    </div>
+                    <div class="slide-media-carousel slide-media">
+                        <img class="carousel-img active" src="img/Defizitanalyse_KI1.png" alt="KI-Defizitanalyse 1" onclick="openLightbox('img/Defizitanalyse_KI1.png', 'Der didaktisch optimierte Prompt liefert eine tiefgehende Analyse der Schüler-Fehlkonzepte.')">
+                        <img class="carousel-img" src="img/Defizitanalyse_KI2.png" alt="KI-Defizitanalyse 2" onclick="openLightbox('img/Defizitanalyse_KI2.png', 'Didaktische Entwürfe und konkrete Erklärungen für die nächste Stunde.')">
+                        <div class="carousel-controls">
+                            <button class="carousel-dot active" onclick="setCarouselImage(3, 0, event)"></button>
+                            <button class="carousel-dot" onclick="setCarouselImage(3, 1, event)"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 5: Schüler-Portal & Anonymes Feedback -->
+                <div class="slide" id="slide-4" style="--tag-color: var(--accent-orange);">
+                    <div class="slide-info">
+                        <span class="slide-tag tag-orange">Schüler-Ansicht</span>
+                        <h2 class="slide-title">Das anonyme Schüler-Portal</h2>
+                        <p class="slide-desc">Geben Sie Ihren Schülern eine datenschutzkonforme Rückmeldung. Jeder Schüler loggt sich anonym per QR-Code und einem 5-stelligen Code ein.</p>
+                        <ul class="slide-features-list">
+                            <li><strong>Sicheres Login:</strong> Kein Name oder E-Mail erforderlich, nur ein zufälliger Zahlencode.</li>
+                            <li><strong>Individuelle Rückmeldung:</strong> Anzeige der eigenen Noten, Punkte und falsch beantworteten Fragen.</li>
+                            <li><strong>Vergleich zur Klasse:</strong> Verstehen, wie man selbst im Vergleich zum Schnitt abgeschnitten hat.</li>
+                        </ul>
+                    </div>
+                    <div class="slide-media" onclick="openLightbox('img/Schüleransicht.png', 'Die Schüleransicht: Anonyme Übersicht über die eigenen Ergebnisse und falschen Antworten.')">
+                        <img src="img/Schüleransicht.png" alt="Schüler-Portal Ansicht">
+                    </div>
+                </div>
+
+                <!-- Slide 6: Sokratischer KI-Tutor für Schüler -->
+                <div class="slide" id="slide-5" style="--tag-color: var(--accent-pink);">
+                    <div class="slide-info">
+                        <span class="slide-tag tag-pink">Schüler-Tutor</span>
+                        <h2 class="slide-title">Lücken aktiv & selbstständig schließen</h2>
+                        <p class="slide-desc">Die Schüler erhalten keinen Lösungszettel zum sturen Abschreiben. Stattdessen hilft ihnen der kopierbare MINT-Tutor-Prompt beim eigenständigen Lernen.</p>
+                        <ul class="slide-features-list">
+                            <li><strong>Kopieren per Klick:</strong> Schüler kopiert seine Defizite als sokratischen Tutor-Prompt.</li>
+                            <li><strong>Keine fertigen Lösungen:</strong> Die KI schlüpft in die Rolle des Tutors und gibt nur Hinweise.</li>
+                            <li><strong>Sokratischer Dialog:</strong> Schüler erarbeitet sich das richtige Ergebnis aktiv durch Beantwortung von Leitfragen.</li>
+                        </ul>
+                    </div>
+                    <div class="slide-media" onclick="openLightbox('img/Tutorprompt.png', 'Der Sokratische KI-Tutor im Einsatz: Ein Schüler erarbeitet sich die Lösung aktiv durch Leitfragen der KI.')">
+                        <img src="img/Tutorprompt.png" alt="Sokratischer KI-Tutor im Einsatz">
+                    </div>
+                </div>
+
+                <!-- Slide 7: Moodle XML-Editor -->
+                <div class="slide" id="slide-6" style="--tag-color: var(--accent-blue);">
+                    <div class="slide-info">
+                        <span class="slide-tag tag-blue">Moodle XML-Editor</span>
+                        <h2 class="slide-title">Fragen prüfen & anpassen</h2>
+                        <p class="slide-desc">Bevor Sie einen Test importieren oder neu in Mebis erstellen, können Sie ihn visuell editieren. Ideal, um z. B. KI-generierte Fragen auf Fehler zu untersuchen.</p>
+                        <ul class="slide-features-list">
+                            <li><strong>Visuelles Editieren:</strong> Fragen direkt als ausklappbare Karten anpassen.</li>
+                            <li><strong>Flexibilität:</strong> Fragentypen per Dropdown ändern, Reihenfolge verschieben, Fragen hinzufügen.</li>
+                            <li><strong>Fehlerfreie XMLs:</strong> Perfekte Mebis-Kompatibilität dank Validierung direkt im Tool.</li>
+                        </ul>
+                    </div>
+                    <div class="slide-media" onclick="openLightbox('img/xml-editor.png', 'Moodle XML-Editor: Visuelle Aufbereitung und unkompliziertes Editieren der XML-Dateien im Browser.')">
+                        <img src="img/xml-editor.png" alt="Moodle XML-Editor">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Slide Navigation Controls -->
+            <div class="presentation-nav">
+                <div class="slide-indicators" id="slide-indicators">
+                    <!-- Dots generated dynamically via JS -->
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav" id="btn-prev" onclick="changeSlide(-1)" disabled>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    </button>
+                    <button class="btn-nav" id="btn-next" onclick="changeSlide(1)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. SCROLL VIEW (ALL PAGES) -->
+        <div class="scroll-container" id="scroll-view">
+            
+            <!-- Section 1: Intro -->
+            <section class="scroll-section">
+                <div class="scroll-info">
+                    <span class="slide-tag tag-blue">Überblick</span>
+                    <h2 class="slide-title">Didaktische Moodle-Analyse mit dem ByCS-Dashboard</h2>
+                    <p class="slide-desc">Das ByCS-Dashboard wandelt Moodle- und mebis-Exportdaten in wertvolle pädagogische Erkenntnisse um. Es identifiziert Wissenslücken der Klasse vollautomatisch und bietet KI-gestützte Hilfe beim Schließen dieser Lücken.</p>
+                    <ul class="slide-features-list">
+                        <li><strong>Einfacher Import:</strong> Nur 3 Klicks, um mebis-Dateien lokal einzulesen.</li>
+                        <li><strong>Datenschutzkonform:</strong> Läuft vollständig lokal in Ihrem Webbrowser – keine Schülerdaten verlassen das Gerät.</li>
+                        <li><strong>Gamification:</strong> Schüler erhalten anonymisierte Ranglisten zur spielerischen Selbstmotivation.</li>
+                    </ul>
+                </div>
+                <div class="scroll-media" onclick="openLightbox('img/Klassenuebersicht.jpg', 'Die Klassenübersicht des Dashboards zeigt die Notenverteilung, Ränge und Leistungsentwicklung im Überblick.')">
+                    <img src="img/Klassenuebersicht.jpg" alt="ByCS-Dashboard Klassenübersicht">
+                </div>
+            </section>
+
+            <!-- Section 2: Lehrer-Ansicht -->
+            <section class="scroll-section">
+                <div class="scroll-info">
+                    <span class="slide-tag tag-cyan">Lehrer-Ansicht</span>
+                    <h2 class="slide-title">Notenspiegel & detaillierte Schülerliste</h2>
+                    <p class="slide-desc">Verschaffen Sie sich ein klares Bild über die Klassenleistung. Erkennen Sie statistische Verteilungen und filtern Sie gezielt heraus, wer besondere Förderung benötigt.</p>
+                    <ul class="slide-features-list">
+                        <li><strong>Leistungsentwicklung:</strong> Kurvenverlauf der Punktzahlen über die gesamte Klasse.</li>
+                        <li><strong>Punkte & Zeit im Blick:</strong> Analysieren Sie Bearbeitungszeiten, um Überforderung oder zu schnelles Klicken zu erkennen.</li>
+                        <li><strong>Individuelle Profile:</strong> Detaillierter Einblick in die Antwortmuster einzelner Schüler.</li>
+                    </ul>
+                </div>
+                <div class="scroll-media" onclick="openLightbox('img/Detailansicht_Lehrer.jpg', 'Detailansicht für Lehrer: Detaillierte Punkteverteilung und Zeitauswertung je Schüler.')">
+                    <img src="img/Detailansicht_Lehrer.jpg" alt="Lehrer Detailansicht">
+                </div>
+            </section>
+
+            <!-- Section 3: Fehleranalyse -->
+            <section class="scroll-section">
+                <div class="scroll-info">
+                    <span class="slide-tag tag-green">Fehleranalyse</span>
+                    <h2 class="slide-title">Fragenanalyse & Top-5-Defizite</h2>
+                    <p class="slide-desc">Finden Sie heraus, wo die didaktischen Stolpersteine lagen. Das Dashboard berechnet Erfolgsquoten sowie die Trennschärfe jeder Frage, um Schwachpunkte gezielt aufzudecken.</p>
+                    <ul class="slide-features-list">
+                        <li><strong>Trennschärfen-Berechnung:</strong> Erkennt ungenaue oder fehlerhafte Fragestellungen.</li>
+                        <li><strong>Automatisches Filtern:</strong> Das System hebt die fünf Aufgaben mit den gravierendsten Verständnisschwierigkeiten hervor.</li>
+                        <li><strong>Gezielte Vorbereitung:</strong> Vermeiden Sie unnötige Wiederholungen und konzentrieren Sie sich auf die tatsächlichen Schwächen.</li>
+                    </ul>
+                </div>
+                <div class="scroll-media" onclick="openLightbox('img/Defiztite_Unterricht.png', 'Die Top-5-Defizite zeigen der Lehrkraft sofort die größten Lücken der Klasse.')">
+                    <img src="img/Defiztite_Unterricht.png" alt="Fehleranalyse">
+                </div>
+            </section>
+
+            <!-- Section 4: Didaktischer Prompt -->
+            <section class="scroll-section">
+                <div class="scroll-info">
+                    <span class="slide-tag tag-purple">KI-Unterstützung</span>
+                    <h2 class="slide-title">Didaktische Auswertung für die Lehrkraft</h2>
+                    <p class="slide-desc">Sparen Sie wertvolle Zeit bei der Unterrichtsvorbereitung. Per Klick erhalten Sie einen passgenau formulierten KI-Prompt, der Fehlstatistiken und Originalfragen bündelt.</p>
+                    <ul class="slide-features-list">
+                        <li><strong>Sofortige Diagnose:</strong> Lassen Sie eine KI (wie ChatGPT oder Gemini) typische Fehlkonzepte Ihrer Schüler erklären.</li>
+                        <li><strong>Didaktische Tipps:</strong> Holen Sie sich Vorschläge für Experimente, Analogien und Tafelskizzen.</li>
+                        <li><strong>Praktische Übungen:</strong> Erstellen Sie direkt passgenaue Zusatzaufgaben für die nächste Stunde.</li>
+                    </ul>
+                </div>
+                <div class="scroll-media" onclick="openLightbox('img/Defizitanalyse_KI1.png', 'Der didaktisch optimierte Prompt liefert eine tiefgehende Analyse der Schüler-Fehlkonzepte.')">
+                    <img src="img/Defizitanalyse_KI1.png" alt="KI didaktischer Prompt">
+                </div>
+            </section>
+
+            <!-- Section 5: Schüler-Portal -->
+            <section class="scroll-section">
+                <div class="scroll-info">
+                    <span class="slide-tag tag-orange">Schüler-Ansicht</span>
+                    <h2 class="slide-title">Anonymes Schüler-Feedback</h2>
+                    <p class="slide-desc">Ermöglichen Sie Ihren Schülern eine selbstständige Einsicht in ihre Testergebnisse. Über einen datenschutzkonformen QR-Code und einen anonymen fünfstelligen Zugangscode loggen sie sich ein.</p>
+                    <ul class="slide-features-list">
+                        <li><strong>Anonymität gewahrt:</strong> Keine Registrierung, kein Name, keine Speicherung personenbezogener Daten.</li>
+                        <li><strong>Transparenz:</strong> Jeder Schüler sieht exakt, wo er Fehler gemacht hat und wie er im Klassendurchschnitt steht.</li>
+                        <li><strong>Gamification-Motivation:</strong> Schüler-Highscores wecken sportlichen Ehrgeiz (optional deaktivierbar).</li>
+                    </ul>
+                </div>
+                <div class="scroll-media" onclick="openLightbox('img/Schüleransicht.png', 'Die Schüleransicht: Anonyme Übersicht über die eigenen Ergebnisse und falschen Antworten.')">
+                    <img src="img/Schüleransicht.png" alt="Schüler-Feedback Portal">
+                </div>
+            </section>
+
+            <!-- Section 6: Sokratischer MINT-Tutor -->
+            <section class="scroll-section">
+                <div class="scroll-info">
+                    <span class="slide-tag tag-pink">Schüler-Tutor</span>
+                    <h2 class="slide-title">Der Sokratische KI-Lernbegleiter</h2>
+                    <p class="slide-desc">Statt Lösungen stumpf zu präsentieren, erarbeiten sich Schüler die Antworten selbst. Ein aus dem Portal kopierter Prompt macht eine KI zum MINT-Tutor.</p>
+                    <ul class="slide-features-list">
+                        <li><strong>Kein „Vorsagen“:</strong> Die KI stellt kluge Leitfragen, anstatt die fertige Antwort zu liefern.</li>
+                        <li><strong>Selbstgesteuertes Lernen:</strong> Schüler korrigieren ihre Fehlvorstellungen Schritt für Schritt durch geführten Dialog.</li>
+                        <li><strong>Nachhaltiges Verständnis:</strong> Das aktive Finden der Lösung sichert den langfristigen Lernerfolg.</li>
+                    </ul>
+                </div>
+                <div class="scroll-media" onclick="openLightbox('img/Tutorprompt.png', 'Der Sokratische KI-Tutor im Einsatz: Ein Schüler erarbeitet sich die Lösung aktiv durch Leitfragen der KI.')">
+                    <img src="img/Tutorprompt.png" alt="Sokratischer KI-Tutor">
+                </div>
+            </section>
+
+            <!-- Section 7: XML-Editor -->
+            <section class="scroll-section">
+                <div class="scroll-info">
+                    <span class="slide-tag tag-blue">Moodle XML-Editor</span>
+                    <h2 class="slide-title">Moodle-Tests visuell erstellen & korrigieren</h2>
+                    <p class="slide-desc">Nutzen Sie den integrierten Editor, um XML-Testdateien übersichtlich zu modifizieren. Perfekt geeignet, um KI-generierte Moodle-Tests vor dem mebis-Import zu kontrollieren.</p>
+                    <ul class="slide-features-list">
+                        <li><strong>Einfaches Handling:</strong> Ändern Sie Fragentexte, HTML, LaTeX-Formeln und Fragentypen visuell.</li>
+                        <li><strong>Strukturieren per Klick:</strong> Umsortieren, Löschen und Hinzufügen von Fragen direkt im Editor.</li>
+                        <li><strong>Import-Sicherheit:</strong> Fehlerfreie Dateien garantieren einen reibungslosen Ablauf in mebis.</li>
+                    </ul>
+                </div>
+                <div class="scroll-media" onclick="openLightbox('img/xml-editor.png', 'Moodle XML-Editor: Visuelle Aufbereitung und unkompliziertes Editieren der XML-Dateien im Browser.')">
+                    <img src="img/xml-editor.png" alt="XML Editor">
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- LIGHTBOX FOR LARGE IMAGES -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <img class="lightbox-content" id="lightbox-img" src="" alt="Großansicht">
+        <p class="lightbox-caption" id="lightbox-caption"></p>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2026 ByCS-Dashboard Presentation</p>
+            <div class="footer-socials">
+                <a href="https://www.linkedin.com/in/dirk-trebbels-b80805289" class="footer-social-link" target="_blank"
+                    rel="noopener noreferrer">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://www.youtube.com/@chemieklickundklar" class="footer-social-link" target="_blank"
+                    rel="noopener noreferrer">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z">
+                        </path>
+                        <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                    </svg>
+                    <span>YouTube</span>
+                </a>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Zum Dashboard</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for slideshow, view switching and lightbox -->
+    <script>
+        // State variables
+        let currentSlide = 0;
+        const totalSlides = 7;
+        let viewMode = 'slides';
+
+        // Initialize Carousel state
+        const carouselStates = {
+            1: 0, // slide 1 carousel
+            2: 0, // slide 2 carousel
+            3: 0  // slide 3 carousel
+        };
+
+        // Render indicators on start
+        window.addEventListener('DOMContentLoaded', () => {
+            const indicatorsContainer = document.getElementById('slide-indicators');
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.classList.add('indicator-dot');
+                if (i === 0) dot.classList.add('active');
+                dot.setAttribute('aria-label', `Gehe zu Folie ${i + 1}`);
+                dot.onclick = () => goToSlide(i);
+                indicatorsContainer.appendChild(dot);
+            }
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (viewMode === 'slides') {
+                    if (e.key === 'ArrowRight' || e.key === ' ') {
+                        changeSlide(1);
+                    } else if (e.key === 'ArrowLeft') {
+                        changeSlide(-1);
+                    }
+                }
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                }
+            });
+        });
+
+        // Switch View Mode (Slides vs Scroll)
+        function setViewMode(mode) {
+            viewMode = mode;
+            const btnSlides = document.getElementById('btn-slides');
+            const btnScroll = document.getElementById('btn-scroll');
+            const slidesView = document.getElementById('slides-view');
+            const scrollView = document.getElementById('scroll-view');
+
+            if (mode === 'slides') {
+                btnSlides.classList.add('active');
+                btnScroll.classList.remove('active');
+                slidesView.style.display = 'flex';
+                scrollView.style.display = 'none';
+                goToSlide(currentSlide);
+            } else {
+                btnSlides.classList.remove('active');
+                btnScroll.classList.add('active');
+                slidesView.style.display = 'none';
+                scrollView.style.display = 'flex';
+            }
+        }
+
+        // Change slide by offset (+1 or -1)
+        function changeSlide(direction) {
+            let nextSlide = currentSlide + direction;
+            if (nextSlide >= 0 && nextSlide < totalSlides) {
+                goToSlide(nextSlide);
+            }
+        }
+
+        // Go to specific slide index
+        function goToSlide(index) {
+            // Remove exit/active classes from old slide
+            const currentSlideEl = document.getElementById(`slide-${currentSlide}`);
+            currentSlideEl.classList.remove('active');
+            currentSlideEl.classList.remove('exit');
+            
+            if (index > currentSlide) {
+                currentSlideEl.classList.add('exit');
+            }
+
+            // Set new current slide
+            currentSlide = index;
+            const newSlideEl = document.getElementById(`slide-${currentSlide}`);
+            newSlideEl.classList.remove('exit');
+            newSlideEl.classList.add('active');
+
+            // Update indicators
+            const dots = document.querySelectorAll('.indicator-dot');
+            dots.forEach((dot, i) => {
+                if (i === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+
+            // Enable/disable navigation buttons
+            document.getElementById('btn-prev').disabled = (currentSlide === 0);
+            document.getElementById('btn-next').disabled = (currentSlide === totalSlides - 1);
+        }
+
+        // Carousel handler
+        function setCarouselImage(slideIndex, imageIndex, event) {
+            if (event) event.stopPropagation(); // prevent lightbox opening when clicking dot
+            
+            const slideEl = document.getElementById(`slide-${slideIndex}`);
+            const imgs = slideEl.querySelectorAll('.carousel-img');
+            const dots = slideEl.querySelectorAll('.carousel-dot');
+
+            imgs.forEach((img, i) => {
+                if (i === imageIndex) {
+                    img.classList.add('active');
+                } else {
+                    img.classList.remove('active');
+                }
+            });
+
+            dots.forEach((dot, i) => {
+                if (i === imageIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+
+            carouselStates[slideIndex] = imageIndex;
+        }
+
+        // Lightbox Functions
+        function openLightbox(imgSrc, captionText) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCap = document.getElementById('lightbox-caption');
+
+            lightboxImg.src = imgSrc;
+            lightboxCap.textContent = captionText;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+        }
+    </script>
+</body>
+
+</html>

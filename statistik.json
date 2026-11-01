@@ -1,0 +1,524 @@
+[[{
+    "test-name": "Alles verstanden? - Mach den Test!",
+    "kursname": "Chemie 9. NTG",
+    "anzahldervollstndigbewertetenerstenversuche": "15",
+    "gesamtzahldervollstndigbewertetenversuche": "19",
+    "durchschnittbeierstemversuch": "60,85%",
+    "durchschnittsergebnisallerversuche": "63,56%",
+    "durchschnittderletztenbewertung": "67,18%",
+    "durchschnittderbestbewertetenversuche": "67,18%",
+    "medianfrbestbewerteterversuch": "69,23%",
+    "standardabweichungfrbestbewerteterversuch": "16,79%",
+    "schiefederpunkteverteilungfrbestbewerteterversuch": "0,2085",
+    "bewertungsverteilungsgraphfrbestbewerteterversuch": "-0,7789",
+    "koeffizientinternerkonsistenzfrbestbewerteterversuch": "56,11%",
+    "fehlerquotientfrbestbewerteterversuch": "66,25%",
+    "standardfehlerfrbestbewerteterversuch": "11,12%"
+}],[{
+    "f": "1",
+    "typderfrage": "Zuordnung",
+    "titelderfrage": "Ausrichtung der Wassermoleküle",
+    "versuche": "15",
+    "leichtigkeitsindex": "86,67%",
+    "standardabweichung": "21,08%",
+    "ratewahrscheinlichkeit": "50,00%",
+    "beabsichtigtegewichtung": "7,69%",
+    "effektivegewichtung": "5,02%",
+    "trennschrfeindex": "13,34%",
+    "trennschrfe-effizienz": "17,43%"
+},{
+    "f": "2",
+    "typderfrage": "Zuordnung",
+    "titelderfrage": "Fachbegriffe zuordnen",
+    "versuche": "15",
+    "leichtigkeitsindex": "86,67%",
+    "standardabweichung": "27,60%",
+    "ratewahrscheinlichkeit": "33,33%",
+    "beabsichtigtegewichtung": "7,69%",
+    "effektivegewichtung": "8,19%",
+    "trennschrfeindex": "35,57%",
+    "trennschrfe-effizienz": "51,61%"
+},{
+    "f": "3",
+    "typderfrage": "Lückentext (Cloze)",
+    "titelderfrage": "Lösungsvorgang Lückentext",
+    "versuche": "15",
+    "leichtigkeitsindex": "45,00%",
+    "standardabweichung": "23,53%",
+    "ratewahrscheinlichkeit": "12,50%",
+    "beabsichtigtegewichtung": "30,77%",
+    "effektivegewichtung": "16,67%",
+    "trennschrfeindex": "15,79%",
+    "trennschrfe-effizienz": "19,19%"
+},{
+    "f": "4",
+    "typderfrage": "Numerisch",
+    "titelderfrage": "Berechnung der Lösungswärme",
+    "versuche": "15",
+    "leichtigkeitsindex": "73,33%",
+    "standardabweichung": "45,77%",
+    "ratewahrscheinlichkeit": "0,00%",
+    "beabsichtigtegewichtung": "7,69%",
+    "effektivegewichtung": "8,56%",
+    "trennschrfeindex": "9,96%",
+    "trennschrfe-effizienz": "12,90%"
+},{
+    "f": "5",
+    "typderfrage": "Numerisch",
+    "titelderfrage": "Temperaturänderung",
+    "versuche": "15",
+    "leichtigkeitsindex": "80,00%",
+    "standardabweichung": "41,40%",
+    "ratewahrscheinlichkeit": "0,00%",
+    "beabsichtigtegewichtung": "7,69%",
+    "effektivegewichtung": "11,37%",
+    "trennschrfeindex": "45,07%",
+    "trennschrfe-effizienz": "71,96%"
+},{
+    "f": "6",
+    "typderfrage": "Kurzantwort",
+    "titelderfrage": "Angeberwissen: Ladungsdichte",
+    "versuche": "15",
+    "leichtigkeitsindex": "60,00%",
+    "standardabweichung": "50,71%",
+    "ratewahrscheinlichkeit": "0,00%",
+    "beabsichtigtegewichtung": "7,69%",
+    "effektivegewichtung": "15,16%",
+    "trennschrfeindex": "78,30%",
+    "trennschrfe-effizienz": "100,00%"
+},{
+    "f": "7",
+    "typderfrage": "Kurzantwort",
+    "titelderfrage": "Gitterenergie",
+    "versuche": "15",
+    "leichtigkeitsindex": "60,00%",
+    "standardabweichung": "50,71%",
+    "ratewahrscheinlichkeit": "0,00%",
+    "beabsichtigtegewichtung": "7,69%",
+    "effektivegewichtung": "13,57%",
+    "trennschrfeindex": "53,79%",
+    "trennschrfe-effizienz": "66,05%"
+},{
+    "f": "8",
+    "typderfrage": "Kurzantwort",
+    "titelderfrage": "Zustandsform aq",
+    "versuche": "15",
+    "leichtigkeitsindex": "86,67%",
+    "standardabweichung": "35,19%",
+    "ratewahrscheinlichkeit": "0,00%",
+    "beabsichtigtegewichtung": "7,69%",
+    "effektivegewichtung": "8,42%",
+    "trennschrfeindex": "23,50%",
+    "trennschrfe-effizienz": "39,56%"
+},{
+    "f": "9",
+    "typderfrage": "Wahr\/Falsch",
+    "titelderfrage": "Energetik des Lösens",
+    "versuche": "15",
+    "leichtigkeitsindex": "73,33%",
+    "standardabweichung": "45,77%",
+    "ratewahrscheinlichkeit": "50,00%",
+    "beabsichtigtegewichtung": "7,69%",
+    "effektivegewichtung": "7,49%",
+    "trennschrfeindex": "2,45%",
+    "trennschrfe-effizienz": "3,23%"
+},{
+    "f": "10",
+    "typderfrage": "Wahr\/Falsch",
+    "titelderfrage": "Hydratation vs. Solvatation",
+    "versuche": "15",
+    "leichtigkeitsindex": "86,67%",
+    "standardabweichung": "35,19%",
+    "ratewahrscheinlichkeit": "50,00%",
+    "beabsichtigtegewichtung": "7,69%",
+    "effektivegewichtung": "5,56%",
+    "trennschrfeindex": "0,63%",
+    "trennschrfe-effizienz": "1,16%"
+}],[{
+    "teilderfrage": "9966100",
+    "musterantwort": "Natrium-Ion (\\( Na^+ \\)): Sauerstoff-Atom (\\( \\delta^- \\))",
+    "tatschlicheantwort": "Sauerstoff-Atom (\\( \\delta^- \\))",
+    "teilweisebewertung": "33,33%",
+    "zhlen": "14",
+    "frequenz": "93,33%"
+},{
+    "teilderfrage": "9966100",
+    "musterantwort": "Natrium-Ion (\\( Na^+ \\)): Wasserstoff-Atome (\\( \\delta^+ \\))",
+    "tatschlicheantwort": "Wasserstoff-Atome (\\( \\delta^+ \\))",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "teilderfrage": "9966100",
+    "musterantwort": "[Keine Antwort]",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+},{
+    "teilderfrage": "9966103",
+    "musterantwort": "Chlorid-Ion (\\( Cl^- \\)): Sauerstoff-Atom (\\( \\delta^- \\))",
+    "tatschlicheantwort": "Sauerstoff-Atom (\\( \\delta^- \\))",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "teilderfrage": "9966103",
+    "musterantwort": "Chlorid-Ion (\\( Cl^- \\)): Wasserstoff-Atome (\\( \\delta^+ \\))",
+    "tatschlicheantwort": "Wasserstoff-Atome (\\( \\delta^+ \\))",
+    "teilweisebewertung": "33,33%",
+    "zhlen": "14",
+    "frequenz": "93,33%"
+},{
+    "teilderfrage": "9966103",
+    "musterantwort": "[Keine Antwort]",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+},{
+    "teilderfrage": "9966106",
+    "musterantwort": "Negativer Pol des Dipols: Sauerstoff-Atom (\\( \\delta^- \\))",
+    "tatschlicheantwort": "Sauerstoff-Atom (\\( \\delta^- \\))",
+    "teilweisebewertung": "33,33%",
+    "zhlen": "11",
+    "frequenz": "73,33%"
+},{
+    "teilderfrage": "9966106",
+    "musterantwort": "Negativer Pol des Dipols: Wasserstoff-Atome (\\( \\delta^+ \\))",
+    "tatschlicheantwort": "Wasserstoff-Atome (\\( \\delta^+ \\))",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "4",
+    "frequenz": "26,67%"
+},{
+    "teilderfrage": "9966106",
+    "musterantwort": "[Keine Antwort]",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+}],[{
+    "teilderfrage": "9966109",
+    "musterantwort": "In das Gitter fest eingebautes Wasser: Kristallwasser",
+    "tatschlicheantwort": "Kristallwasser",
+    "teilweisebewertung": "33,33%",
+    "zhlen": "14",
+    "frequenz": "93,33%"
+},{
+    "teilderfrage": "9966109",
+    "musterantwort": "In das Gitter fest eingebautes Wasser: Dipol",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+},{
+    "teilderfrage": "9966109",
+    "musterantwort": "In das Gitter fest eingebautes Wasser: homogenes Gemisch",
+    "tatschlicheantwort": "homogenes Gemisch",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "teilderfrage": "9966109",
+    "musterantwort": "[Keine Antwort]",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+},{
+    "teilderfrage": "9966112",
+    "musterantwort": "Ladungsverteilung im H2O-Molekül: Kristallwasser",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+},{
+    "teilderfrage": "9966112",
+    "musterantwort": "Ladungsverteilung im H2O-Molekül: Dipol",
+    "tatschlicheantwort": "Dipol",
+    "teilweisebewertung": "33,33%",
+    "zhlen": "13",
+    "frequenz": "86,67%"
+},{
+    "teilderfrage": "9966112",
+    "musterantwort": "Ladungsverteilung im H2O-Molekül: homogenes Gemisch",
+    "tatschlicheantwort": "homogenes Gemisch",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "2",
+    "frequenz": "13,33%"
+},{
+    "teilderfrage": "9966112",
+    "musterantwort": "[Keine Antwort]",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+},{
+    "teilderfrage": "9966115",
+    "musterantwort": "Zustand am Ende des Lösungsvorgangs: Kristallwasser",
+    "tatschlicheantwort": "Kristallwasser",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "teilderfrage": "9966115",
+    "musterantwort": "Zustand am Ende des Lösungsvorgangs: Dipol",
+    "tatschlicheantwort": "Dipol",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "2",
+    "frequenz": "13,33%"
+},{
+    "teilderfrage": "9966115",
+    "musterantwort": "Zustand am Ende des Lösungsvorgangs: homogenes Gemisch",
+    "tatschlicheantwort": "homogenes Gemisch",
+    "teilweisebewertung": "33,33%",
+    "zhlen": "12",
+    "frequenz": "80,00%"
+},{
+    "teilderfrage": "9966115",
+    "musterantwort": "[Keine Antwort]",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+}],[{
+    "musterantwort": "3 (2.9..3.1)",
+    "tatschlicheantwort": "3",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "9",
+    "frequenz": "60,00%"
+},{
+    "musterantwort": "3 (2.9..3.1)",
+    "tatschlicheantwort": "+3kJ\/mol",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "3 (2.9..3.1)",
+    "tatschlicheantwort": "+3",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "30 (30..30)",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+},{
+    "musterantwort": "1590 (1590..1590)",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "0",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "2",
+    "frequenz": "13,33%"
+},{
+    "musterantwort": "[Keine Antwort]",
+    "tatschlicheantwort": "[Keine Antwort]",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "2",
+    "frequenz": "13,33%"
+}],[{
+    "musterantwort": "15 (10.1..19.9)",
+    "tatschlicheantwort": "17",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "2",
+    "frequenz": "13,33%"
+},{
+    "musterantwort": "15 (10.1..19.9)",
+    "tatschlicheantwort": "16",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "4",
+    "frequenz": "26,67%"
+},{
+    "musterantwort": "15 (10.1..19.9)",
+    "tatschlicheantwort": "15",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "6",
+    "frequenz": "40,00%"
+},{
+    "musterantwort": "25 (25..25)",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "20",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "40",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "30",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Keine Antwort]",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+}],[{
+    "musterantwort": "*Ladungsdichte*",
+    "tatschlicheantwort": "Ladungsdichte",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "9",
+    "frequenz": "60,00%"
+},{
+    "musterantwort": "Größe",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "Sie ziehen Wassermoleküle so unfassbar stark an, dass ihre Hydrathülle viel dicker und fester ist als die von großen Anionen. Kristalwasser",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "Hydrationsenergie",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "ionenenergie",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "Es braucht gleich viele Wassermoleküle um sie neutral zu laden aber eben auf engerem Raum",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "höhere Dichte",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Keine Antwort]",
+    "tatschlicheantwort": "[Keine Antwort]",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+}],[{
+    "musterantwort": "Gitterenergie",
+    "tatschlicheantwort": "Gitterenergie",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "8",
+    "frequenz": "53,33%"
+},{
+    "musterantwort": "*Gitter*",
+    "tatschlicheantwort": "Ionengitter",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "Ionisierungsenergie",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "Hydrationsenergie",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "2",
+    "frequenz": "13,33%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "Hydratationsenergie",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "Hydrationesenergie",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "Lösung",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Keine Antwort]",
+    "tatschlicheantwort": "",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+}],[{
+    "musterantwort": "aq",
+    "tatschlicheantwort": "aq",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "12",
+    "frequenz": "80,00%"
+},{
+    "musterantwort": "(aq)",
+    "tatschlicheantwort": "(aq)",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Passt zu keiner Antwort]",
+    "tatschlicheantwort": "a",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+},{
+    "musterantwort": "[Keine Antwort]",
+    "tatschlicheantwort": "[Keine Antwort]",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "1",
+    "frequenz": "6,67%"
+}],[{
+    "musterantwort": "Falsch",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "11",
+    "frequenz": "73,33%"
+},{
+    "musterantwort": "Wahr",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "4",
+    "frequenz": "26,67%"
+},{
+    "musterantwort": "[Keine Antwort]",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+}],[{
+    "musterantwort": "Falsch",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "2",
+    "frequenz": "13,33%"
+},{
+    "musterantwort": "Wahr",
+    "teilweisebewertung": "100,00%",
+    "zhlen": "13",
+    "frequenz": "86,67%"
+},{
+    "musterantwort": "[Keine Antwort]",
+    "teilweisebewertung": "0,00%",
+    "zhlen": "0",
+    "frequenz": "0,00%"
+}]]

@@ -1,0 +1,268 @@
+{
+    "classes": [
+        {
+            "name": "Chemie 10. Klasse (Gymnasium)",
+            "validCodes": ["ALEX1", "BOB22"],
+            "tests": [
+                {
+                    "name": "Nomenklatur der Carbonyle",
+                    "classAverage": 6.8,
+                    "questions": [
+                        {
+                            "key": "q1",
+                            "name": "Nomenklatur Alkanale",
+                            "text": "Benenne das Molekül CH<sub>3</sub>-CHO nach IUPAC.",
+                            "maxPoints": 1.0,
+                            "answers": [
+                                {
+                                    "fraction": 100,
+                                    "text": "Ethanal"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "q2",
+                            "name": "Nomenklatur Alkanone",
+                            "text": "Benenne das Molekül CH<sub>3</sub>-CO-CH<sub>3</sub> nach IUPAC.",
+                            "maxPoints": 1.0,
+                            "answers": [
+                                {
+                                    "fraction": 100,
+                                    "text": "Propanon (oder Propan-2-on / Aceton)"
+                                }
+                            ]
+                        }
+                    ],
+                    "results": [
+                        {
+                            "nachname": "ALEX1",
+                            "vorname": "",
+                            "bewertung": 8.5,
+                            "scores": {
+                                "q1": 1.0,
+                                "q2": 0.7
+                            }
+                        },
+                        {
+                            "nachname": "BOB22",
+                            "vorname": "",
+                            "bewertung": 5.1,
+                            "scores": {
+                                "q1": 0.5,
+                                "q2": 0.52
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Atombindung",
+                    "classAverage": 7.2,
+                    "questions": [
+                        {
+                            "key": "q1",
+                            "name": "Lewis-Schreibweise",
+                            "text": "Zeichne die Lewis-Formel für Wasser H<sub>2</sub>O.",
+                            "maxPoints": 1.0,
+                            "answers": [
+                                {
+                                    "fraction": 100,
+                                    "text": "H-O-H mit je zwei freien Elektronenpaaren am Sauerstoff"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "q2",
+                            "name": "Elektronegativität",
+                            "text": "Erkläre den Einfluss der Elektronegativität auf die Bindungpolarität.",
+                            "maxPoints": 1.0,
+                            "answers": [
+                                {
+                                    "fraction": 100,
+                                    "text": "Ungleiche Verteilung der Bindungselektronen führt zu Teilladungen (&delta;<sup>+</sup> / &delta;<sup>-</sup>)"
+                                }
+                            ]
+                        }
+                    ],
+                    "results": [
+                        {
+                            "nachname": "ALEX1",
+                            "vorname": "",
+                            "bewertung": 7.0,
+                            "scores": {
+                                "q1": 1.0,
+                                "q2": 0.4
+                            }
+                        },
+                        {
+                            "nachname": "BOB22",
+                            "vorname": "",
+                            "bewertung": 7.4,
+                            "scores": {
+                                "q1": 0.8,
+                                "q2": 0.68
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Hydratation",
+                    "classAverage": 6.1,
+                    "questions": [
+                        {
+                            "key": "q1",
+                            "name": "Hydratationsenergie",
+                            "text": "Was versteht man unter der Hydratationsenergie?",
+                            "maxPoints": 1.0,
+                            "answers": [
+                                {
+                                    "fraction": 100,
+                                    "text": "Energie, die freigesetzt wird, wenn sich Wassermoleküle an Ionen anlagern."
+                                }
+                            ]
+                        },
+                        {
+                            "key": "q2",
+                            "name": "Hydrathülle",
+                            "text": "Beschreibe die Orientierung der Wassermoleküle um ein Kation.",
+                            "maxPoints": 1.0,
+                            "answers": [
+                                {
+                                    "fraction": 100,
+                                    "text": "Die partiell negativ geladenen Sauerstoffatome zeigen zum Kation."
+                                }
+                            ]
+                        }
+                    ],
+                    "results": [
+                        {
+                            "nachname": "ALEX1",
+                            "vorname": "",
+                            "bewertung": 6.5,
+                            "scores": {
+                                "q1": 1.0,
+                                "q2": 0.15
+                            }
+                        },
+                        {
+                            "nachname": "BOB22",
+                            "vorname": "",
+                            "bewertung": 5.7,
+                            "scores": {
+                                "q1": 0.6,
+                                "q2": 0.54
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Intermolekulare Wechselwirkungen",
+                    "classAverage": 5.2,
+                    "questions": [
+                        {
+                            "key": "q1",
+                            "name": "Wasserstoffbrücken",
+                            "text": "Welche Atome müssen an H gebunden sein, damit Wasserstoffbrücken entstehen können?",
+                            "maxPoints": 1.0,
+                            "answers": [
+                                {
+                                    "fraction": 100,
+                                    "text": "Stark elektronegative Atome: F, O, N"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "q2",
+                            "name": "Van-der-Waals-Kräfte",
+                            "text": "Wodurch entstehen temporäre Dipole bei den Van-der-Waals-Kräften?",
+                            "maxPoints": 1.0,
+                            "answers": [
+                                {
+                                    "fraction": 100,
+                                    "text": "Durch kurzzeitige Asymmetrien in der Ladungsverteilung der Elektronenhülle."
+                                }
+                            ]
+                        }
+                    ],
+                    "results": [
+                        {
+                            "nachname": "ALEX1",
+                            "vorname": "",
+                            "bewertung": 4.5,
+                            "scores": {
+                                "q1": 0.8,
+                                "q2": 0.1
+                            }
+                        },
+                        {
+                            "nachname": "BOB22",
+                            "vorname": "",
+                            "bewertung": 5.9,
+                            "scores": {
+                                "q1": 0.7,
+                                "q2": 0.48
+                            }
+                        }
+                    ]
+                }
+            ],
+            "lernpakete": [
+                {
+                    "name": "Carbonylverbindungen Grundkurs",
+                    "data": [
+                        {
+                            "name": "ALEX1",
+                            "bewertung": 85.0,
+                            "versuch": 2,
+                            "letzterVersuch": "12. Juli 2026 14:30"
+                        },
+                        {
+                            "name": "BOB22",
+                            "bewertung": 60.0,
+                            "versuch": 1,
+                            "letzterVersuch": "11. Juli 2026 10:15"
+                        }
+                    ]
+                },
+                {
+                    "name": "Polare Atombindungen Vertiefung",
+                    "data": [
+                        {
+                            "name": "ALEX1",
+                            "bewertung": 45.0,
+                            "versuch": 1,
+                            "letzterVersuch": "10. Juli 2026 09:15"
+                        }
+                    ]
+                },
+                {
+                    "name": "Wässrige Lösungen und Hydrathüllen",
+                    "missingStatuses": {
+                        "ALEX1_": "null_punkte"
+                    },
+                    "data": [
+                        {
+                            "name": "BOB22",
+                            "bewertung": 92.0,
+                            "versuch": 1,
+                            "letzterVersuch": "13. Juli 2026 11:00"
+                        }
+                    ]
+                },
+                {
+                    "name": "Intermolekulare Wechselwirkungen Vertiefung",
+                    "missingStatuses": {
+                        "ALEX1_": "krank"
+                    },
+                    "data": [
+                        {
+                            "name": "BOB22",
+                            "bewertung": 78.0,
+                            "versuch": 1,
+                            "letzterVersuch": "12. Juli 2026 16:45"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

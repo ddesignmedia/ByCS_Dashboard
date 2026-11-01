@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <!-- Frage 1: Wahr/Falsch -->
+  <question type="truefalse">
+    <name><text>Hydratation vs. Solvatation</text></name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Der Begriff <strong>Hydratation</strong> ist ein spezieller Fall der <strong>Solvatation</strong>, der explizit dann verwendet wird, wenn Wasser als Lösungsmittel fungiert.</p>]]></text>
+    </questiontext>
+    <answer fraction="100">
+      <text>true</text>
+      <feedback><text>Richtig! Hydratation bezieht sich immer auf Wasser, Solvatation ist der allgemeine Überbegriff.</text></feedback>
+    </answer>
+    <answer fraction="0">
+      <text>false</text>
+      <feedback><text>Falsch. Jede Hydratation ist eine Solvatation, aber der Begriff Hydratation ist auf das Lösungsmittel Wasser spezialisiert.</text></feedback>
+    </answer>
+  </question>
+
+  <!-- Frage 2: Kurzantwort -->
+  <question type="shortanswer">
+    <name><text>Gitterenergie</text></name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Wie nennt man die Energie, die aufgewendet werden muss, um die Ionen eines Salzkristalls aus ihrem festen Verband zu lösen? (Geben Sie den Fachbegriff ein)</p>]]></text>
+    </questiontext>
+    <answer fraction="100">
+      <text>Gitterenergie</text>
+      <feedback><text>Korrekt! Die \( \Delta H_{G} \) muss überwunden werden.</text></feedback>
+    </answer>
+    <answer fraction="100">
+      <text>*Gitter*</text>
+      <feedback><text>Korrekt! Gemeint ist die Gitterenergie.</text></feedback>
+    </answer>
+  </question>
+
+  <!-- Frage 3: Zuordnung -->
+  <question type="matching">
+    <name><text>Ausrichtung der Wassermoleküle</text></name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Welcher Teil des Wassermoleküls (\( H_2O \)) weist aufgrund der Ladungsverteilung zu welchem Ion?</p>]]></text>
+    </questiontext>
+    <subquestion>
+      <text>Natrium-Ion (\( Na^+ \))</text>
+      <answer><text>Sauerstoff-Atom (\( \delta^- \))</text></answer>
+    </subquestion>
+    <subquestion>
+      <text>Chlorid-Ion (\( Cl^- \))</text>
+      <answer><text>Wasserstoff-Atome (\( \delta^+ \))</text></answer>
+    </subquestion>
+    <subquestion>
+      <text>Negativer Pol des Dipols</text>
+      <answer><text>Sauerstoff-Atom (\( \delta^- \))</text></answer>
+    </subquestion>
+  </question>
+
+  <!-- Frage 4: Numerisch -->
+  <question type="numerical">
+    <name><text>Berechnung der Lösungswärme</text></name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Berechne die molare Lösungswärme \( \Delta H_{sol} \) von Natriumchlorid (NaCl) in kJ/mol. Gegeben sind die Gitterenergie \( \Delta H_{G} = +787 \, \text{kJ/mol} \) und die Hydratationsenergie \( \Delta H_{hyd} = -784 \, \text{kJ/mol} \).</p>]]></text>
+    </questiontext>
+    <answer fraction="100">
+      <text>3</text>
+      <tolerance>0.1</tolerance>
+      <feedback><text>Richtig! \( \Delta H_{sol} = \Delta H_{G} + \Delta H_{hyd} = 787 + (-784) = +3 \, \text{kJ/mol} \). Der Vorgang ist leicht endotherm.</text></feedback>
+    </answer>
+    <answer fraction="0">
+      <text>30</text>
+      <feedback><text>Falsch. Beachte das Vorzeichen! Die Hydratationsenergie wird frei (negativ), die Gitterenergie muss aufgewendet werden (positiv). Die Summe ist hier negativ.</text></feedback>
+    </answer>
+    <answer fraction="0">
+      <text>1590</text>
+      <feedback><text>Falsch. Du hast die Beträge addiert. Die Lösungswärme ist die Bilanz aus aufzuwendender Gitterenergie und freiwerdender Hydratationsenergie.</text></feedback>
+    </answer>
+  </question>
+
+  <!-- Frage 5: Cloze (Lückentext) -->
+  <question type="cloze">
+    <name><text>Lösungsvorgang Lückentext</text></name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Vervollständige den Text zum Lösungsvorgang:</p>
+      <p>Salze bestehen aus einem regelmäßigen {1:MULTICHOICE:=Ionengitter#Korrekt~Molekülgitter#Falsch, Salze bilden Ionen-Kristalle.}. Beim Lösen lagern sich Wassermoleküle an. Diesen Vorgang nennt man {1:SHORTANSWER:=Hydratation#Richtig!}. Dabei wird die {1:SHORTANSWER:=Hydratationsenergie#Korrekt!} frei. Sind die Ionen vollständig von Wasser umgeben, spricht man von einer {1:SHORTANSWER:=Hydrathülle#Richtig!}.</p>]]></text>
+    </questiontext>
+  </question>
+
+  <!-- Frage 6: Kurzantwort -->
+  <question type="shortanswer">
+    <name><text>Zustandsform aq</text></name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Welches Kürzel wird in chemischen Reaktionsgleichungen hinter die Formel eines Ions geschrieben, um anzuzeigen, dass es in Wasser gelöst (hydratisiert) vorliegt?</p>]]></text>
+    </questiontext>
+    <answer fraction="100">
+      <text>aq</text>
+      <feedback><text>Richtig! (aq) steht für aqueous (wässrig).</text></feedback>
+    </answer>
+    <answer fraction="100">
+      <text>(aq)</text>
+      <feedback><text>Richtig!</text></feedback>
+    </answer>
+  </question>
+
+  <!-- Frage 7: Wahr/Falsch -->
+  <question type="truefalse">
+    <name><text>Energetik des Lösens</text></name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Ein Salz kann sich nur dann in Wasser lösen, wenn der Vorgang insgesamt exotherm ist (also Energie frei wird).</p>]]></text>
+    </questiontext>
+    <answer fraction="100">
+      <text>false</text>
+      <feedback><text>Richtig! Viele Salze lösen sich endotherm (die Lösung wird kälter), da die Entropiezunahme den energetischen Nachteil ausgleichen kann.</text></feedback>
+    </answer>
+    <answer fraction="0">
+      <text>true</text>
+      <feedback><text>Falsch. Es gibt viele endotherme Lösungsvorgänge (z.B. Ammoniumnitrat). Das Salz entzieht der Umgebung dann Wärmeenergie.</text></feedback>
+    </answer>
+  </question>
+
+  <!-- Frage 8: Zuordnung -->
+  <question type="matching">
+    <name><text>Fachbegriffe zuordnen</text></name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Ordne die Fachbegriffe korrekt zu:</p>]]></text>
+    </questiontext>
+    <subquestion>
+      <text>In das Gitter fest eingebautes Wasser</text>
+      <answer><text>Kristallwasser</text></answer>
+    </subquestion>
+    <subquestion>
+      <text>Ladungsverteilung im H2O-Molekül</text>
+      <answer><text>Dipol</text></answer>
+    </subquestion>
+    <subquestion>
+      <text>Zustand am Ende des Lösungsvorgangs</text>
+      <answer><text>homogenes Gemisch</text></answer>
+    </subquestion>
+  </question>
+
+  <!-- Frage 9: Numerisch -->
+  <question type="numerical">
+    <name><text>Temperaturänderung</text></name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Ein Schüler löst ein Salz endotherm in Wasser. Die Starttemperatur beträgt \( 20^\circ C \). Welche Endtemperatur wäre plausibel?</p>]]></text>
+    </questiontext>
+    <answer fraction="100">
+      <text>15</text>
+      <tolerance>4.9</tolerance>
+      <feedback><text>Richtig! Bei einem endothermen Vorgang sinkt die Temperatur der Lösung.</text></feedback>
+    </answer>
+    <answer fraction="0">
+      <text>25</text>
+      <feedback><text>Falsch. Das wäre ein exothermer Vorgang. Endotherm bedeutet, dass Energie aus dem Wasser aufgenommen wird, wodurch dieses abkühlt.</text></feedback>
+    </answer>
+  </question>
+
+  <!-- Frage 10: Kurzantwort -->
+  <question type="shortanswer">
+    <name><text>Angeberwissen: Ladungsdichte</text></name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Warum haben kleine Ionen wie \( Li^+ \) oft eine viel dickere Hydrathülle als große Ionen mit der gleichen Ladung? Welches physikalische Konzept ist hier entscheidend?</p>]]></text>
+    </questiontext>
+    <answer fraction="100">
+      <text>*Ladungsdichte*</text>
+      <feedback><text>Exzellent! Die hohe Ladungsdichte führt zu einer stärkeren elektrostatischen Anziehung der Wasser-Dipole.</text></feedback>
+    </answer>
+    <answer fraction="0">
+      <text>Größe</text>
+      <feedback><text>Das ist nur ein Teil der Antwort. Entscheidend ist das Verhältnis von Ladung zu Volumen, also die Ladungsdichte.</text></feedback>
+    </answer>
+  </question>
+</quiz>
